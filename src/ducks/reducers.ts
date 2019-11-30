@@ -1,15 +1,16 @@
 import ACTIONS from "./actions";
 
 const defaultState = {
-  characterPosition: { x: 7, y: 7 }
+  player: {
+    position: { x: 7, y: 7 }
+  }
 };
 
 const gameReducer = (state = defaultState, action) => {
   switch (action.type) {
-    case ACTIONS.Actions.UPDATE_CHARACTER_POSITION: {
-      console.log(action);
+    case ACTIONS.Actions.UPDATE_PLAYER_POSITION: {
       let coordinates = action.payload;
-      state.characterPosition = coordinates;
+      state.player.position = coordinates;
       return state;
     }
 
