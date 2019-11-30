@@ -2,6 +2,9 @@ import React from "react"
 import styled from "styled-components"
 import { connect } from "react-redux";
 
+import sand from "./img/sand.png"
+import grass from "./img/grass.png"
+
 type CritterProps = {
   name: string,
   type: string,
@@ -12,7 +15,7 @@ type CellProps = {
   x: number,
   y: number,
   playerPosition: { x: number, y: number }
-  cellSize: number,
+  world: { cellSize: number, worldSize: number, sandEdgeCells: number },
   critters: CritterProps[],
   scalingFactor: number
 }
@@ -29,13 +32,16 @@ const cellTypeColours = {
   empty: "white"
 }
 
-const Cell: React.FC<CellProps> = ({ x, y, playerPosition, cellSize, critters, scalingFactor }) => {
+const Cell: React.FC<CellProps> = ({ x, y, playerPosition, world, critters, scalingFactor }) => {
+  const { cellSize, worldSize, sandEdgeCells } = world
+  const critterMatch = critters.find(critter => critter.position.x === x && critter.position.y === y)
+  const sandEdgeCell = x < 2 || y < 2 || x >= worldSize - sandEdgeCells || y >= worldSize - sandEdgeCells
+
   const positionStyling = {
     left: `${x * cellSize * scalingFactor}vh`,
-    top: `${y * cellSize * scalingFactor}vh`
+    top: `${y * cellSize * scalingFactor}vh`,
+    backgroundImage: `url(${sandEdgeCell ? sand : grass})`
   }
-
-  const critterMatch = critters.find(critter => critter.position.x === x && critter.position.y === y)
 
   let cellType = "empty"
   if (playerPosition.x === x && playerPosition.y === y) {
@@ -44,33 +50,39 @@ const Cell: React.FC<CellProps> = ({ x, y, playerPosition, cellSize, critters, s
     cellType = "critter"
   }
 
-  const cellLabel = critterMatch ? critterMatch.name : `${x},${y}`
+  const cellLabel = critterMatch ? critterMatch.name : ""
+
+  if (cellType !== "empty") {
+    delete positionStyling["backgroundImage"]
+  }
 
   return (
     <StyledCell
       style={positionStyling}
       cellType={cellType}
       cellSize={cellSize}
-      scalingFactor={scalingFactor}>
+      scalingFactor={scalingFactor}
+    >
       {cellLabel}
     </StyledCell>
   )
 }
 
 const StyledCell = styled.div<StyledCellProps>`
-  border: 1px solid black;
+  border: 0.5px solid rgba(0,0,0,0.1);
   position: absolute;
   width: ${({ cellSize, scalingFactor }) => cellSize * scalingFactor}vh;
   height: ${({ cellSize, scalingFactor }) => cellSize * scalingFactor}vh;
   display: flex;
   align-items: center;
   justify-content: center;
+  background-size: cover;
   background-color: ${({ cellType }) => cellTypeColours[cellType]}
 `
 
 export default connect(
   state => ({
-    cellSize: state.world.cellSize,
+    world: state.world,
     playerPosition: state.player.position,
     critters: state.critters,
     scalingFactor: state.ui.scalingFactor

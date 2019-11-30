@@ -5,20 +5,22 @@ import { connect } from "react-redux"
 import CellWrapper from "./CellWrapper"
 import Cell from "./Cell"
 import { addCritter } from "./ducks/actions"
+import water from "./img/water.png"
 
 type WorldProps = {
-  world: { worldSize: number, critterCount: number },
+  world: { worldSize: number, critterCount: number, cellSize: number },
   scalingFactor: number,
   addCritter: Function
 }
 
 type StyledWorldProps = {
-  scalingFactor: number
+  scalingFactor: number,
+  cellSize: number
 }
 
 const World: React.FC<WorldProps> = ({ world, scalingFactor, addCritter }) => {
   const cells: any[] = []
-  const { worldSize, critterCount } = world
+  const { worldSize, critterCount, cellSize } = world
 
   for (let i = 0; i < critterCount; i++) {
     addCritter()
@@ -33,7 +35,7 @@ const World: React.FC<WorldProps> = ({ world, scalingFactor, addCritter }) => {
   }
 
   return (
-    <StyledWorld scalingFactor={scalingFactor}>
+    <StyledWorld scalingFactor={scalingFactor} cellSize={cellSize}>
       <CellWrapper cells={cells}></CellWrapper>
     </StyledWorld>
   )
@@ -48,7 +50,9 @@ const StyledWorld = styled.div<StyledWorldProps>`
   border-radius: 5px;
   border: 3px solid #333333;
   padding: 1px;
-  background: dimgrey;
+  background-image: url(${water});
+  background-repeat: repeat;
+  background-size: ${({ cellSize, scalingFactor }) => cellSize * scalingFactor}vh;
 `
 
 export default connect(

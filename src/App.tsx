@@ -12,7 +12,8 @@ const initialState = {
     cellRowSize: cellRowSize,
     cellSize: 100.0 / cellRowSize,
     edgeCellPosition: Math.floor(cellRowSize / 2),
-    critterCount: 10
+    critterCount: 10,
+    sandEdgeCells: 2
   },
   player: {
     position: { x: 4, y: 4 }
