@@ -38,8 +38,6 @@ const StyledCellWrapper = styled.div`
 
 export default connect(
   state => ({ world: state.world, playerPosition: state.player.position }),
-  (dispatch) => {
-    return {
-      updatePlayerPosition: (key) => dispatch(updatePlayerPosition(key))
-    }
-  })(World)
+  (dispatch) => ({
+    updatePlayerPosition: (key) => dispatch(updatePlayerPosition(key))
+  }))(World)

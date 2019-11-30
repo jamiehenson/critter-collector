@@ -4,14 +4,20 @@ import { connect } from "react-redux"
 
 import CellWrapper from "./CellWrapper"
 import Cell from "./Cell"
+import { addCritter } from "./ducks/actions"
 
 type WorldProps = {
-  world: { worldSize: number, cellSize: number, edgeCellPosition: number }
+  world: { worldSize: number, critterCount: number },
+  addCritter: Function
 }
 
-const World: React.FC<WorldProps> = ({ world }) => {
+const World: React.FC<WorldProps> = ({ world, addCritter }) => {
   const cells: any[] = []
-  const { worldSize } = world
+  const { worldSize, critterCount } = world
+
+  for (let i = 0; i < critterCount; i++) {
+    addCritter()
+  }
 
   for (let i = 0; i < worldSize; i++) {
     let cellRow: any[] = []
@@ -35,4 +41,9 @@ const StyledWorld = styled.div`
   overflow: hidden;
 `
 
-export default connect(state => ({ world: state.world }), null)(World)
+export default connect(
+  state => ({ world: state.world }),
+  (dispatch) => ({
+    addCritter: () => dispatch(addCritter())
+  })
+)(World)

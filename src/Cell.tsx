@@ -2,28 +2,54 @@ import React from "react"
 import styled from "styled-components"
 import { connect } from "react-redux";
 
+type CritterProps = {
+  name: string,
+  type: string,
+  position: { x: number, y: number }
+}
+
 type CellProps = {
   x: number,
   y: number,
   playerPosition: { x: number, y: number }
-  cellSize: number
+  cellSize: number,
+  critters: CritterProps[]
 }
 
 type StyledCellProps = {
-  playerCell: boolean,
-  cellSize: number
+  cellSize: number,
+  cellType: string
 }
 
-const Cell: React.FC<CellProps> = ({ x, y, playerPosition, cellSize }) => {
+const cellTypeColours = {
+  player: "red",
+  critter: "green",
+  empty: "white"
+}
+
+const Cell: React.FC<CellProps> = ({ x, y, playerPosition, cellSize, critters }) => {
   const positionStyling = {
     left: `${x * cellSize}vh`,
     top: `${y * cellSize}vh`
   }
+
+  const critterMatch = critters.find(critter => critter.position.x === x && critter.position.y === y)
+
+  let cellType = "empty"
+  if (playerPosition.x === x && playerPosition.y === y) {
+    cellType = "player"
+  } else if (critterMatch) {
+    cellType = "critter"
+  }
+
+  const cellLabel = critterMatch ? critterMatch.name : `${x},${y}`
+
   return (
     <StyledCell
       style={positionStyling}
-      playerCell={playerPosition.x === x && playerPosition.y === y}
-      cellSize={cellSize}>{x},{y}</StyledCell>
+      cellType={cellType}
+      cellSize={cellSize}>{cellLabel}
+    </StyledCell>
   )
 }
 
@@ -35,13 +61,14 @@ const StyledCell = styled.div<StyledCellProps>`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${({ playerCell }) => playerCell ? "red" : "white"}
+  background-color: ${({ cellType }) => cellTypeColours[cellType]}
 `
 
 export default connect(
   state => ({
     cellSize: state.world.cellSize,
-    playerPosition: state.player.position
+    playerPosition: state.player.position,
+    critters: state.critters
   }),
   null
 )(Cell)

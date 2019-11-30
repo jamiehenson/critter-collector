@@ -11,11 +11,13 @@ const initialState = {
     worldSize: 27,
     cellRowSize: cellRowSize,
     cellSize: 100.0 / cellRowSize,
-    edgeCellPosition: Math.floor(cellRowSize / 2)
+    edgeCellPosition: Math.floor(cellRowSize / 2),
+    critterCount: 10
   },
   player: {
     position: { x: 4, y: 4 }
   },
+  critters: []
 };
 
 const reduxStore = configureStore(initialState);

@@ -1,4 +1,6 @@
 import ACTIONS from "./actions";
+import names from "../utils/names";
+import types from "../utils/types";
 
 const gameReducer = (state, action) => {
   switch (action.type) {
@@ -24,7 +26,17 @@ const gameReducer = (state, action) => {
         return state
       }
     }
-
+    case ACTIONS.Actions.ADD_CRITTER: {
+      const xPos = Math.floor(Math.random() * state.world.worldSize)
+      const yPos = Math.floor(Math.random() * state.world.worldSize)
+      const newCritters = state.critters
+      newCritters.push({
+        name: names[Math.floor(Math.random() * names.length)],
+        types: types[Math.floor(Math.random() * types.length)],
+        position: { x: xPos, y: yPos }
+      })
+      return Object.assign({}, state, { critters: newCritters })
+    }
     default:
       return state;
   }
