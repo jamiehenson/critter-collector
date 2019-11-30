@@ -5,7 +5,20 @@ import { Provider as ReduxProvider } from "react-redux";
 import configureStore from "./ducks/store";
 import World from "./World"
 
-const reduxStore = configureStore();
+const cellRowSize: number = 9
+const initialState = {
+  world: {
+    worldSize: 27,
+    cellRowSize: cellRowSize,
+    cellSize: 100.0 / cellRowSize,
+    edgeCellPosition: Math.floor(cellRowSize / 2)
+  },
+  player: {
+    position: { x: 4, y: 4 }
+  }
+};
+
+const reduxStore = configureStore(initialState);
 
 const App: React.FC = () => {
   return (

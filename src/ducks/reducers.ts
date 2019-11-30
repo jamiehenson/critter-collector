@@ -1,20 +1,6 @@
 import ACTIONS from "./actions";
 
-const cellRowSize: number = 9
-
-const defaultState = {
-  world: {
-    worldSize: 27,
-    cellRowSize: cellRowSize,
-    cellSize: 100.0 / cellRowSize,
-    edgeCellPosition: Math.floor(cellRowSize / 2)
-  },
-  player: {
-    position: { x: 4, y: 4 }
-  }
-};
-
-const gameReducer = (state = defaultState, action) => {
+const gameReducer = (state, action) => {
   switch (action.type) {
     case ACTIONS.Actions.UPDATE_PLAYER_POSITION: {
       const key = action.payload;
