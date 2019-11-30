@@ -3,16 +3,17 @@ import styled from "styled-components"
 import { connect } from "react-redux"
 
 import { updatePlayerPosition } from "./ducks/actions"
-import Cell, { cellSize, edgeCellPosition } from "./Cell"
+import Cell from "./Cell"
 
 type WorldProps = {
   updatePlayerPosition: Function,
-  playerPosition: { x: number, y: number }
+  playerPosition: { x: number, y: number },
+  world: { worldSize: number, cellSize: number, edgeCellPosition: number }
 }
 
-const World: React.FC<WorldProps> = ({ updatePlayerPosition, playerPosition }) => {
-  const worldSize: number = 27
+const World: React.FC<WorldProps> = ({ updatePlayerPosition, playerPosition, world }) => {
   const cells: any[] = []
+  const { worldSize, edgeCellPosition, cellSize } = world
 
   for (let i = 0; i < worldSize; i++) {
     let cellRow: any[] = []
@@ -50,10 +51,12 @@ const StyledWorld = styled.div`
 
 const CellWrapper = styled.div`
   position: absolute;
+  transition: margin-left 0.1s, margin-top 0.1s;
+  will-change: margin-left, margin-top;
 `
 
 export default connect(
-  state => ({ playerPosition: state.player.position }),
+  state => ({ world: state.world, playerPosition: state.player.position }),
   (dispatch) => {
     return {
       updatePlayerPosition: (key) => dispatch(updatePlayerPosition(key))
