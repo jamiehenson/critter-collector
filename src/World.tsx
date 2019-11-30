@@ -23,9 +23,10 @@ const World: React.FC = () => {
 
 const StyledWorld = styled.div`
   position: relative;
-  width: 100vw;
+  width: 100vh;
   height: 100vh;
   overflow: hidden;
+  margin: 0 auto;
 `
 
 export default World

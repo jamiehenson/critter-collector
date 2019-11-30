@@ -14,6 +14,7 @@ const App: React.FC = () => {
 const StyledApp = styled.div`
   width: 100%;
   height: 100%;
+  background-color: darkblue;
 `
 
 export default App;
