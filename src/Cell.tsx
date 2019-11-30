@@ -5,22 +5,28 @@ import { connect } from "react-redux";
 type CellProps = {
   x: number,
   y: number,
-  characterPosition: object
+  playerPosition: { x: number, y: number }
 }
 
-const cellDivision: number = 15
-const cellSize: number = 100.0 / cellDivision
+type StyledCellProps = {
+  playerCell: boolean
+}
 
-const Cell: React.FC<CellProps> = ({ x, y, characterPosition }) => {
-  if (x === 0 && y === 0) {
-    console.log(characterPosition)
+const cellDivision: number = 9
+export const cellSize: number = 100.0 / cellDivision
+export const edgeCellPosition: number = Math.floor(cellDivision / 2)
+
+const Cell: React.FC<CellProps> = ({ x, y, playerPosition }) => {
+  const positionStyling = {
+    left: `${x * cellSize}vh`,
+    top: `${y * cellSize}vh`
   }
   return (
-    <StyledCell style={{ left: `${x * cellSize}vh`, top: `${y * cellSize}vh` }}>{x},{y}</StyledCell>
+    <StyledCell style={positionStyling} playerCell={playerPosition.x === x && playerPosition.y === y}>{x},{y}</StyledCell>
   )
 }
 
-const StyledCell = styled.div`
+const StyledCell = styled.div<StyledCellProps>`
   border: 1px solid black;
   position: absolute;
   width: ${cellSize}vh;
@@ -28,12 +34,12 @@ const StyledCell = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: white;
+  background-color: ${({ playerCell }) => playerCell ? "red" : "white"}
 `
 
 export default connect(
   state => ({
-    characterPosition: state.characterPosition
+    playerPosition: state.player.position
   }),
   null
 )(Cell)

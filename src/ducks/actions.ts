@@ -2,9 +2,9 @@ const Actions = {
   UPDATE_PLAYER_POSITION: "UPDATE_PLAYER_POSITION"
 };
 
-const updatePlayerPosition = task => ({
+export const updatePlayerPosition = key => ({
   type: Actions.UPDATE_PLAYER_POSITION,
-  payload: task
+  payload: key
 });
 
 export default {
