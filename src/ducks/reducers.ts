@@ -20,7 +20,7 @@ const gameReducer = (state, action) => {
         newState = { x: Math.min(x + 1, worldSize - 1), y: y };
       }
 
-      if (newState) {
+      if (Object.keys(newState).length > 0) {
         return Object.assign({}, state, { player: { position: newState } });
       } else {
         return state
