@@ -1,13 +1,19 @@
 import React from 'react';
 import styled from "styled-components"
+import { Provider as ReduxProvider } from "react-redux";
 
+import configureStore from "./ducks/store";
 import World from "./World"
+
+const reduxStore = configureStore();
 
 const App: React.FC = () => {
   return (
-    <StyledApp>
-      <World />
-    </StyledApp>
+    <ReduxProvider store={reduxStore}>
+      <StyledApp>
+        <World />
+      </StyledApp>
+    </ReduxProvider>
   );
 }
 
