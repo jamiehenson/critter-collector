@@ -15,7 +15,7 @@ const initialState = {
   },
   player: {
     position: { x: 4, y: 4 }
-  }
+  },
 };
 
 const reduxStore = configureStore(initialState);
