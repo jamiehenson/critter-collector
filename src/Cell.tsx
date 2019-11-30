@@ -13,12 +13,14 @@ type CellProps = {
   y: number,
   playerPosition: { x: number, y: number }
   cellSize: number,
-  critters: CritterProps[]
+  critters: CritterProps[],
+  scalingFactor: number
 }
 
 type StyledCellProps = {
   cellSize: number,
-  cellType: string
+  cellType: string,
+  scalingFactor: number
 }
 
 const cellTypeColours = {
@@ -27,10 +29,10 @@ const cellTypeColours = {
   empty: "white"
 }
 
-const Cell: React.FC<CellProps> = ({ x, y, playerPosition, cellSize, critters }) => {
+const Cell: React.FC<CellProps> = ({ x, y, playerPosition, cellSize, critters, scalingFactor }) => {
   const positionStyling = {
-    left: `${x * cellSize}vh`,
-    top: `${y * cellSize}vh`
+    left: `${x * cellSize * scalingFactor}vh`,
+    top: `${y * cellSize * scalingFactor}vh`
   }
 
   const critterMatch = critters.find(critter => critter.position.x === x && critter.position.y === y)
@@ -48,7 +50,9 @@ const Cell: React.FC<CellProps> = ({ x, y, playerPosition, cellSize, critters })
     <StyledCell
       style={positionStyling}
       cellType={cellType}
-      cellSize={cellSize}>{cellLabel}
+      cellSize={cellSize}
+      scalingFactor={scalingFactor}>
+      {cellLabel}
     </StyledCell>
   )
 }
@@ -56,8 +60,8 @@ const Cell: React.FC<CellProps> = ({ x, y, playerPosition, cellSize, critters })
 const StyledCell = styled.div<StyledCellProps>`
   border: 1px solid black;
   position: absolute;
-  width: ${({ cellSize }) => cellSize}vh;
-  height: ${({ cellSize }) => cellSize}vh;
+  width: ${({ cellSize, scalingFactor }) => cellSize * scalingFactor}vh;
+  height: ${({ cellSize, scalingFactor }) => cellSize * scalingFactor}vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -68,7 +72,8 @@ export default connect(
   state => ({
     cellSize: state.world.cellSize,
     playerPosition: state.player.position,
-    critters: state.critters
+    critters: state.critters,
+    scalingFactor: state.ui.scalingFactor
   }),
   null
 )(Cell)

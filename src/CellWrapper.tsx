@@ -14,8 +14,8 @@ type CellWrapperProps = {
 const World: React.FC<CellWrapperProps> = ({ updatePlayerPosition, playerPosition, world, cells }) => {
   const { cellSize, edgeCellPosition } = world
   const positionStyling = {
-    marginLeft: `${-((playerPosition.x - edgeCellPosition) * cellSize)}vh`,
-    marginTop: `${-((playerPosition.y - edgeCellPosition) * cellSize)}vh`,
+    marginLeft: `${-((playerPosition.x - edgeCellPosition) * cellSize)}%`,
+    marginTop: `${-((playerPosition.y - edgeCellPosition) * cellSize)}%`,
   }
 
   useEffect(() => {

@@ -8,10 +8,15 @@ import { addCritter } from "./ducks/actions"
 
 type WorldProps = {
   world: { worldSize: number, critterCount: number },
+  scalingFactor: number,
   addCritter: Function
 }
 
-const World: React.FC<WorldProps> = ({ world, addCritter }) => {
+type StyledWorldProps = {
+  scalingFactor: number
+}
+
+const World: React.FC<WorldProps> = ({ world, scalingFactor, addCritter }) => {
   const cells: any[] = []
   const { worldSize, critterCount } = world
 
@@ -28,21 +33,26 @@ const World: React.FC<WorldProps> = ({ world, addCritter }) => {
   }
 
   return (
-    <StyledWorld>
+    <StyledWorld scalingFactor={scalingFactor}>
       <CellWrapper cells={cells}></CellWrapper>
     </StyledWorld>
   )
 }
 
-const StyledWorld = styled.div`
+const StyledWorld = styled.div<StyledWorldProps>`
   position: relative;
-  width: 100vh;
-  height: 100vh;
+  width: ${({ scalingFactor }) => 100 * scalingFactor}vh;
+  height: ${({ scalingFactor }) => 100 * scalingFactor}vh;
   overflow: hidden;
+  margin: 5vh;
+  border-radius: 5px;
+  border: 3px solid #333333;
+  padding: 1px;
+  background: dimgrey;
 `
 
 export default connect(
-  state => ({ world: state.world }),
+  state => ({ world: state.world, scalingFactor: state.ui.scalingFactor }),
   (dispatch) => ({
     addCritter: () => dispatch(addCritter())
   })

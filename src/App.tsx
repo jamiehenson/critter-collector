@@ -17,6 +17,9 @@ const initialState = {
   player: {
     position: { x: 4, y: 4 }
   },
+  ui: {
+    scalingFactor: 0.8
+  },
   critters: []
 };
 
@@ -26,6 +29,7 @@ const App: React.FC = () => {
   return (
     <ReduxProvider store={reduxStore}>
       <StyledApp>
+        <DecorativeWrapper />
         <World />
       </StyledApp>
     </ReduxProvider>
@@ -34,10 +38,21 @@ const App: React.FC = () => {
 
 const StyledApp = styled.div`
   width: 100%;
-  height: 100%;
-  background-color: darkblue;
+  height: 100vh;
+  background-color: #333333;
   display: flex;
   justify-content: center;
+  position: relative;
+`
+
+const DecorativeWrapper = styled.div`
+  position: absolute;
+  height: calc(100vh - 0.5rem);
+  width: 95vh;
+  background: #7851a9;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  margin-top: 0.5rem;
 `
 
 export default App;
