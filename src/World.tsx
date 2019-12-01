@@ -7,9 +7,11 @@ import Cell from "./Cell"
 import UI from "./UI"
 import { addCritterToWorld, addCritterToPlayer } from "./ducks/actions"
 import water from "./img/water.png"
+import { WorldType, PlayerType } from "./utils/types"
 
 type WorldProps = {
-  world: { worldSize: number, critterCount: number, cellSize: number },
+  world: WorldType,
+  player: PlayerType,
   scalingFactor: number,
   addCritterToWorld: Function,
   addCritterToPlayer: Function
@@ -20,15 +22,17 @@ type StyledWorldProps = {
   cellSize: number
 }
 
-const World: React.FC<WorldProps> = ({ world, scalingFactor, addCritterToWorld, addCritterToPlayer }) => {
+const World: React.FC<WorldProps> = ({ world, player, scalingFactor, addCritterToWorld, addCritterToPlayer }) => {
   const cells: any[] = []
-  const { worldSize, critterCount, cellSize } = world
-
+  const { worldSize, critterCount, cellSize, critters } = world
   for (let i = 0; i < critterCount; i++) {
-    addCritterToWorld()
+    if (critters.length >= critterCount) { break };
+    addCritterToWorld();
   }
 
-  addCritterToPlayer()
+  if (player.critters.length === 0) {
+    addCritterToPlayer()
+  }
 
   for (let i = 0; i < worldSize; i++) {
     let cellRow: any[] = []
@@ -61,7 +65,7 @@ const StyledWorld = styled.div<StyledWorldProps>`
 `
 
 export default connect(
-  state => ({ world: state.world, scalingFactor: state.ui.scalingFactor }),
+  state => ({ world: state.world, player: state.player, scalingFactor: state.ui.scalingFactor }),
   (dispatch) => ({
     addCritterToWorld: () => dispatch(addCritterToWorld()),
     addCritterToPlayer: () => dispatch(addCritterToPlayer())

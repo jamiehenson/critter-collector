@@ -2,7 +2,7 @@ import React from "react"
 import styled from "styled-components"
 import { connect } from "react-redux";
 
-import { CellProps } from "./utils/types"
+import { CellType } from "./utils/types"
 import sand from "./img/sand.png"
 import grass from "./img/grass.png"
 
@@ -12,8 +12,8 @@ type StyledCellProps = {
   flipCell: boolean
 }
 
-const Cell: React.FC<CellProps> = ({ x, y, player, world, critters, scalingFactor }) => {
-  const { cellSize, worldSize, sandEdgeCells } = world
+const Cell: React.FC<CellType> = ({ x, y, player, world, scalingFactor }) => {
+  const { cellSize, worldSize, sandEdgeCells, critters } = world
   const playerCell = player.position.x === x && player.position.y === y
   const critterMatch = critters.find(critter => critter.position.x === x && critter.position.y === y)
   const sandEdgeCell = x < 2 || y < 2 || x >= worldSize - sandEdgeCells || y >= worldSize - sandEdgeCells
@@ -68,7 +68,6 @@ export default connect(
   state => ({
     world: state.world,
     player: state.player,
-    critters: state.critters,
     scalingFactor: state.ui.scalingFactor
   }),
   null

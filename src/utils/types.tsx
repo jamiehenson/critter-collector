@@ -1,10 +1,10 @@
-export type PlayerProps = {
+export type PlayerType = {
   position: { x: number, y: number },
   direction: string,
-  critters: CritterProps[]
+  critters: CritterType[]
 }
 
-export type CritterProps = {
+export type CritterType = {
   id: number,
   name: string,
   type: string,
@@ -12,11 +12,19 @@ export type CritterProps = {
   position: { x: number, y: number }
 }
 
-export type CellProps = {
+export type WorldType = {
+  cellSize: number,
+  worldSize: number,
+  edgeCellPosition: number,
+  sandEdgeCells: number,
+  critterCount: number,
+  critters: CritterType[]
+}
+
+export type CellType = {
   x: number,
   y: number,
-  player: PlayerProps
-  world: { cellSize: number, worldSize: number, sandEdgeCells: number },
-  critters: CritterProps[],
+  player: PlayerType
+  world: WorldType,
   scalingFactor: number
 }

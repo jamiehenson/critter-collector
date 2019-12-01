@@ -14,17 +14,18 @@ const initialState = {
     cellSize: 100.0 / cellRowSize,
     edgeCellPosition: Math.floor(cellRowSize / 2),
     critterCount: 10,
-    sandEdgeCells: 2
+    sandEdgeCells: 2,
+    critters: []
   },
   player: {
     position: { x: Math.floor(Math.random() * worldSize), y: Math.floor(Math.random() * worldSize) },
     direction: "down",
-    critters: []
+    critters: [],
+    nearbyCritters: []
   },
   ui: {
     scalingFactor: 0.8
-  },
-  critters: []
+  }
 };
 
 const reduxStore = configureStore(initialState);

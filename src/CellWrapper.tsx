@@ -3,12 +3,12 @@ import styled from "styled-components"
 import { connect } from "react-redux"
 
 import { updatePlayerPosition } from "./ducks/actions"
-import { PlayerProps } from "./utils/types"
+import { PlayerType, WorldType } from "./utils/types"
 
 type CellWrapperProps = {
   updatePlayerPosition: Function,
-  player: PlayerProps,
-  world: { worldSize: number, cellSize: number, edgeCellPosition: number },
+  player: PlayerType,
+  world: WorldType,
   cells: Component[]
 }
 

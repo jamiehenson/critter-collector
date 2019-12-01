@@ -33,10 +33,10 @@ const gameReducer = (state, action) => {
     case ACTIONS.Actions.ADD_CRITTER_TO_WORLD: {
       const xPos = Math.floor(Math.random() * state.world.worldSize)
       const yPos = Math.floor(Math.random() * state.world.worldSize)
-      const newCritters = state.critters
+      const newCritters = state.world.critters
       let randomCritter = Object.assign({}, allCritters[Math.floor(Math.random() * allCritters.length)], { position: { x: xPos, y: yPos } })
       newCritters.push(randomCritter)
-      return Object.assign({}, state, { critters: newCritters })
+      return Object.assign({}, state, { world: { ...state.world, critters: newCritters } })
     }
     case ACTIONS.Actions.ADD_CRITTER_TO_PLAYER: {
       const newCritters = state.player.critters

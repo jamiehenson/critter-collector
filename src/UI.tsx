@@ -2,17 +2,17 @@ import React from "react"
 import styled from "styled-components"
 import { connect } from "react-redux"
 
-import { PlayerProps } from "./utils/types"
+import { PlayerType } from "./utils/types"
 
 type UIProps = {
-  player: PlayerProps
+  player: PlayerType
 }
 
 const UI: React.FC<UIProps> = ({ player }) => {
   return (
     <StyledUI>
-      <p>Critters: {player.critters.map((critter) => critter.icon).join(" | ")}</p>
-      <p>Nearby critters: 0</p>
+      <p>Critters: {player.critters.map((critter) => critter.icon).join(" ")}</p>
+      {/* <p>Nearby critters: {player.nearbyCritters}</p> */}
     </StyledUI>
   )
 }
