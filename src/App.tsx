@@ -6,9 +6,10 @@ import configureStore from "./ducks/store";
 import World from "./World"
 
 const cellRowSize: number = 9
+const worldSize: number = 27
 const initialState = {
   world: {
-    worldSize: 27,
+    worldSize: worldSize,
     cellRowSize: cellRowSize,
     cellSize: 100.0 / cellRowSize,
     edgeCellPosition: Math.floor(cellRowSize / 2),
@@ -16,7 +17,8 @@ const initialState = {
     sandEdgeCells: 2
   },
   player: {
-    position: { x: 4, y: 4 }
+    position: { x: Math.floor(Math.random() * worldSize), y: Math.floor(Math.random() * worldSize) },
+    direction: "down"
   },
   ui: {
     scalingFactor: 0.8

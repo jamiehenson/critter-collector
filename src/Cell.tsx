@@ -8,13 +8,19 @@ import grass from "./img/grass.png"
 type CritterProps = {
   name: string,
   type: string,
+  icon: string,
   position: { x: number, y: number }
+}
+
+type PlayerProps = {
+  position: { x: number, y: number },
+  direction: string
 }
 
 type CellProps = {
   x: number,
   y: number,
-  playerPosition: { x: number, y: number }
+  player: PlayerProps
   world: { cellSize: number, worldSize: number, sandEdgeCells: number },
   critters: CritterProps[],
   scalingFactor: number
@@ -22,18 +28,13 @@ type CellProps = {
 
 type StyledCellProps = {
   cellSize: number,
-  cellType: string,
-  scalingFactor: number
+  scalingFactor: number,
+  flipCell: boolean
 }
 
-const cellTypeColours = {
-  player: "red",
-  critter: "green",
-  empty: "white"
-}
-
-const Cell: React.FC<CellProps> = ({ x, y, playerPosition, world, critters, scalingFactor }) => {
+const Cell: React.FC<CellProps> = ({ x, y, player, world, critters, scalingFactor }) => {
   const { cellSize, worldSize, sandEdgeCells } = world
+  const playerCell = player.position.x === x && player.position.y === y
   const critterMatch = critters.find(critter => critter.position.x === x && critter.position.y === y)
   const sandEdgeCell = x < 2 || y < 2 || x >= worldSize - sandEdgeCells || y >= worldSize - sandEdgeCells
 
@@ -43,25 +44,27 @@ const Cell: React.FC<CellProps> = ({ x, y, playerPosition, world, critters, scal
     backgroundImage: `url(${sandEdgeCell ? sand : grass})`
   }
 
-  let cellType = "empty"
-  if (playerPosition.x === x && playerPosition.y === y) {
-    cellType = "player"
+  let cellLabel = ""
+  let flippedCell = false
+  if (playerCell) {
+    if (player.direction === "up" || player.direction === "down") {
+      cellLabel = "🧍‍♂️"
+    } else if (player.direction === "left") {
+      cellLabel = "🚶‍♂️"
+    } else if (player.direction === "right") {
+      cellLabel = "🚶‍♂️"
+      flippedCell = true
+    }
   } else if (critterMatch) {
-    cellType = "critter"
-  }
-
-  const cellLabel = critterMatch ? critterMatch.name : ""
-
-  if (cellType !== "empty") {
-    delete positionStyling["backgroundImage"]
+    cellLabel = critterMatch.icon
   }
 
   return (
     <StyledCell
       style={positionStyling}
-      cellType={cellType}
       cellSize={cellSize}
       scalingFactor={scalingFactor}
+      flipCell={flippedCell}
     >
       {cellLabel}
     </StyledCell>
@@ -77,13 +80,14 @@ const StyledCell = styled.div<StyledCellProps>`
   align-items: center;
   justify-content: center;
   background-size: cover;
-  background-color: ${({ cellType }) => cellTypeColours[cellType]}
+  font-size: ${({ cellSize, scalingFactor }) => cellSize * scalingFactor}vh;
+  transform: scale(${({ flipCell }) => flipCell ? -1 : 1}, 1);
 `
 
 export default connect(
   state => ({
     world: state.world,
-    playerPosition: state.player.position,
+    player: state.player,
     critters: state.critters,
     scalingFactor: state.ui.scalingFactor
   }),
