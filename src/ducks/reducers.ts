@@ -5,23 +5,36 @@ const gameReducer = (state, action) => {
   switch (action.type) {
     case ACTIONS.Actions.UPDATE_PLAYER_POSITION: {
       const key = action.payload;
-      const { x, y } = state.player.position
+      let { position, direction } = state.player
       const { worldSize, critters } = state.world
-      let position = {}
-      let direction = ""
+
+      const obstructions = {
+        up: critters.find((critter) => critter.position.x === position.x && critter.position.y === position.y - 1),
+        down: critters.find((critter) => critter.position.x === position.x && critter.position.y === position.y + 1),
+        left: critters.find((critter) => critter.position.y === position.y && critter.position.x === position.x - 1),
+        right: critters.find((critter) => critter.position.y === position.y && critter.position.x === position.x + 1)
+      }
 
       if (["w", "ArrowUp", "87", "38"].includes(key)) {
-        position = { x: x, y: Math.max(y - 1, 0) };
-        direction = "up"
+        if (!obstructions.up) {
+          position = { x: position.x, y: Math.max(position.y - 1, 0) };
+        }
+        direction = "up";
       } else if (["s", "ArrowDown", "83", "40"].includes(key)) {
-        position = { x: x, y: Math.min(y + 1, worldSize - 1) };
-        direction = "down"
+        if (!obstructions.down) {
+          position = { x: position.x, y: Math.min(position.y + 1, worldSize - 1) };
+        }
+        direction = "down";
       } else if (["a", "ArrowLeft", "65", "37"].includes(key)) {
-        position = { x: Math.max(x - 1, 0), y: y };
-        direction = "left"
+        if (!obstructions.left) {
+          position = { x: Math.max(position.x - 1, 0), y: position.y };
+        }
+        direction = "left";
       } else if (["d", "ArrowRight", "68", "39"].includes(key)) {
-        position = { x: Math.min(x + 1, worldSize - 1), y: y };
-        direction = "right"
+        if (!obstructions.right) {
+          position = { x: Math.min(position.x + 1, worldSize - 1), y: position.y };
+        }
+        direction = "right";
       }
 
       const nearbyCritters = critters.filter((critter) => {
@@ -29,11 +42,7 @@ const gameReducer = (state, action) => {
           Math.abs((position as any).y - critter.position.y) <= 2
       })
 
-      if (Object.keys(position).length > 0) {
-        return Object.assign({}, state, { player: { ...state.player, position, direction, nearbyCritters } });
-      } else {
-        return state
-      }
+      return Object.assign({}, state, { player: { ...state.player, position, direction, nearbyCritters } });
     }
     case ACTIONS.Actions.ADD_CRITTER_TO_WORLD: {
       const xPos = Math.floor(Math.random() * state.world.worldSize)

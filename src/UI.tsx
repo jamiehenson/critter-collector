@@ -12,12 +12,14 @@ const UI: React.FC<UIProps> = ({ player }) => {
   const { critters, nearbyCritters } = player
   return (
     <StyledUI>
-      <p>Your Critters
+      <div>
+        <p>Your Critters</p>
         <CritterList>{critters.map((critter) => critter.icon).join(" ")}</CritterList>
-      </p>
-      <p>Nearby Critters ({nearbyCritters.length})
+      </div>
+      <div>
+        <p>Nearby Critters ({nearbyCritters.length})</p>
         <CritterList>{nearbyCritters.map((critter) => critter.icon).join(" ")}</CritterList>
-      </p>
+      </div>
     </StyledUI>
   )
 }
@@ -35,9 +37,11 @@ const StyledUI = styled.div`
   padding: 1rem;
   color: white;
   font-weight: bold;
+  div {
+    flex: 1;
+  }
   p {
     margin: 0;
-    flex: 1;
   }
 `
 
