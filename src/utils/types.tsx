@@ -1,9 +1,11 @@
 export type PlayerProps = {
   position: { x: number, y: number },
-  direction: string
+  direction: string,
+  critters: CritterProps[]
 }
 
 export type CritterProps = {
+  id: number,
   name: string,
   type: string,
   icon: string,

@@ -1,5 +1,6 @@
 const critters = [
   {
+    id: 1,
     name: "dog",
     type: "fire",
     healthPoints: 100,
@@ -7,6 +8,7 @@ const critters = [
     icon: "🐶"
   },
   {
+    id: 2,
     name: "cat",
     type: "fire",
     healthPoints: 100,
@@ -14,6 +16,7 @@ const critters = [
     icon: "🐱"
   },
   {
+    id: 3,
     name: "mouse",
     type: "grass",
     healthPoints: 100,
@@ -21,6 +24,7 @@ const critters = [
     icon: "🐭"
   },
   {
+    id: 4,
     name: "rabbit",
     type: "grass",
     healthPoints: 100,
@@ -28,6 +32,7 @@ const critters = [
     icon: "🐰"
   },
   {
+    id: 5,
     name: "gerbil",
     type: "grass",
     healthPoints: 100,
@@ -35,6 +40,7 @@ const critters = [
     icon: "🐹"
   },
   {
+    id: 6,
     name: "fox",
     type: "water",
     healthPoints: 100,
@@ -42,6 +48,7 @@ const critters = [
     icon: "🦊"
   },
   {
+    id: 7,
     name: "bear",
     type: "water",
     healthPoints: 100,
@@ -49,6 +56,7 @@ const critters = [
     icon: "🐻"
   },
   {
+    id: 8,
     name: "panda",
     type: "water",
     healthPoints: 100,
@@ -56,6 +64,7 @@ const critters = [
     icon: "🐼"
   },
   {
+    id: 9,
     name: "koala",
     type: "water",
     healthPoints: 100,
@@ -63,6 +72,7 @@ const critters = [
     icon: "🐨"
   },
   {
+    id: 10,
     name: "tiger",
     type: "fire",
     healthPoints: 100,
@@ -70,6 +80,7 @@ const critters = [
     icon: "🐯"
   },
   {
+    id: 11,
     name: "lion",
     type: "fire",
     healthPoints: 100,
@@ -77,6 +88,7 @@ const critters = [
     icon: "🦁"
   },
   {
+    id: 12,
     name: "cow",
     type: "grass",
     healthPoints: 100,
@@ -84,6 +96,7 @@ const critters = [
     icon: "🐮"
   },
   {
+    id: 13,
     name: "pig",
     type: "grass",
     healthPoints: 100,
@@ -91,6 +104,7 @@ const critters = [
     icon: "🐷"
   },
   {
+    id: 14,
     name: "frog",
     type: "water",
     healthPoints: 100,
@@ -98,6 +112,7 @@ const critters = [
     icon: "🐸"
   },
   {
+    id: 15,
     name: "monkey",
     type: "fire",
     healthPoints: 100,

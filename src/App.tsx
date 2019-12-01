@@ -18,7 +18,8 @@ const initialState = {
   },
   player: {
     position: { x: Math.floor(Math.random() * worldSize), y: Math.floor(Math.random() * worldSize) },
-    direction: "down"
+    direction: "down",
+    critters: []
   },
   ui: {
     scalingFactor: 0.8

@@ -3,19 +3,20 @@ import styled from "styled-components"
 import { connect } from "react-redux"
 
 import { updatePlayerPosition } from "./ducks/actions"
+import { PlayerProps } from "./utils/types"
 
 type CellWrapperProps = {
   updatePlayerPosition: Function,
-  playerPosition: { x: number, y: number },
+  player: PlayerProps,
   world: { worldSize: number, cellSize: number, edgeCellPosition: number },
   cells: Component[]
 }
 
-const CellWrapper: React.FC<CellWrapperProps> = ({ updatePlayerPosition, playerPosition, world, cells }) => {
+const CellWrapper: React.FC<CellWrapperProps> = ({ updatePlayerPosition, player, world, cells }) => {
   const { cellSize, edgeCellPosition } = world
   const positionStyling = {
-    marginLeft: `${-((playerPosition.x - edgeCellPosition) * cellSize)}%`,
-    marginTop: `${-((playerPosition.y - edgeCellPosition) * cellSize)}%`,
+    marginLeft: `${-((player.position.x - edgeCellPosition) * cellSize)}%`,
+    marginTop: `${-((player.position.y - edgeCellPosition) * cellSize)}%`,
   }
 
   useEffect(() => {
@@ -37,7 +38,7 @@ const StyledCellWrapper = styled.div`
 `
 
 export default connect(
-  state => ({ world: state.world, playerPosition: state.player.position }),
+  state => ({ world: state.world, player: state.player }),
   (dispatch) => ({
     updatePlayerPosition: (key) => dispatch(updatePlayerPosition(key))
   }))(CellWrapper)
