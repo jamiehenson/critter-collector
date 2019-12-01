@@ -1,7 +1,8 @@
 export type PlayerType = {
   position: { x: number, y: number },
   direction: string,
-  critters: CritterType[]
+  critters: CritterType[],
+  nearbyCritters: CritterType[]
 }
 
 export type CritterType = {

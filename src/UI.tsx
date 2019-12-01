@@ -9,16 +9,22 @@ type UIProps = {
 }
 
 const UI: React.FC<UIProps> = ({ player }) => {
+  const { critters, nearbyCritters } = player
   return (
     <StyledUI>
-      <p>Critters: {player.critters.map((critter) => critter.icon).join(" ")}</p>
-      {/* <p>Nearby critters: {player.nearbyCritters}</p> */}
+      <p>Your Critters
+        <CritterList>{critters.map((critter) => critter.icon).join(" ")}</CritterList>
+      </p>
+      <p>Nearby Critters ({nearbyCritters.length})
+        <CritterList>{nearbyCritters.map((critter) => critter.icon).join(" ")}</CritterList>
+      </p>
     </StyledUI>
   )
 }
 
 const StyledUI = styled.div`
   width: calc(100% - 4rem);
+  display: flex;
   height: 100px;
   position: absolute;
   bottom: 0;
@@ -31,7 +37,12 @@ const StyledUI = styled.div`
   font-weight: bold;
   p {
     margin: 0;
+    flex: 1;
   }
+`
+
+const CritterList = styled.div`
+  font-size: 3rem;
 `
 
 export default connect((state) => ({ player: state.player }), null)(UI)

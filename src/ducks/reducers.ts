@@ -6,7 +6,7 @@ const gameReducer = (state, action) => {
     case ACTIONS.Actions.UPDATE_PLAYER_POSITION: {
       const key = action.payload;
       const { x, y } = state.player.position
-      const { worldSize } = state.world
+      const { worldSize, critters } = state.world
       let position = {}
       let direction = ""
 
@@ -24,8 +24,13 @@ const gameReducer = (state, action) => {
         direction = "right"
       }
 
+      const nearbyCritters = critters.filter((critter) => {
+        return Math.abs((position as any).x - critter.position.x) <= 2 &&
+          Math.abs((position as any).y - critter.position.y) <= 2
+      })
+
       if (Object.keys(position).length > 0) {
-        return Object.assign({}, state, { player: { ...state.player, position, direction } });
+        return Object.assign({}, state, { player: { ...state.player, position, direction, nearbyCritters } });
       } else {
         return state
       }
