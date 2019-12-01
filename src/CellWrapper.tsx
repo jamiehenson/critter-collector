@@ -11,7 +11,7 @@ type CellWrapperProps = {
   cells: Component[]
 }
 
-const World: React.FC<CellWrapperProps> = ({ updatePlayerPosition, playerPosition, world, cells }) => {
+const CellWrapper: React.FC<CellWrapperProps> = ({ updatePlayerPosition, playerPosition, world, cells }) => {
   const { cellSize, edgeCellPosition } = world
   const positionStyling = {
     marginLeft: `${-((playerPosition.x - edgeCellPosition) * cellSize)}%`,
@@ -40,4 +40,4 @@ export default connect(
   state => ({ world: state.world, playerPosition: state.player.position }),
   (dispatch) => ({
     updatePlayerPosition: (key) => dispatch(updatePlayerPosition(key))
-  }))(World)
+  }))(CellWrapper)

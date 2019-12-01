@@ -4,6 +4,7 @@ import { connect } from "react-redux"
 
 import CellWrapper from "./CellWrapper"
 import Cell from "./Cell"
+import UI from "./UI"
 import { addCritter } from "./ducks/actions"
 import water from "./img/water.png"
 
@@ -37,6 +38,7 @@ const World: React.FC<WorldProps> = ({ world, scalingFactor, addCritter }) => {
   return (
     <StyledWorld scalingFactor={scalingFactor} cellSize={cellSize}>
       <CellWrapper cells={cells}></CellWrapper>
+      <UI></UI>
     </StyledWorld>
   )
 }

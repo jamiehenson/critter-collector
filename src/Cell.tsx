@@ -2,29 +2,9 @@ import React from "react"
 import styled from "styled-components"
 import { connect } from "react-redux";
 
+import { CellProps } from "./utils/types"
 import sand from "./img/sand.png"
 import grass from "./img/grass.png"
-
-type CritterProps = {
-  name: string,
-  type: string,
-  icon: string,
-  position: { x: number, y: number }
-}
-
-type PlayerProps = {
-  position: { x: number, y: number },
-  direction: string
-}
-
-type CellProps = {
-  x: number,
-  y: number,
-  player: PlayerProps
-  world: { cellSize: number, worldSize: number, sandEdgeCells: number },
-  critters: CritterProps[],
-  scalingFactor: number
-}
 
 type StyledCellProps = {
   cellSize: number,
