@@ -21,7 +21,8 @@ const initialState = {
     position: { x: Math.floor(Math.random() * worldSize), y: Math.floor(Math.random() * worldSize) },
     direction: "down",
     critters: [],
-    nearbyCritters: []
+    nearbyCritters: [],
+    battle: { active: false, combatant: null }
   },
   ui: {
     scalingFactor: 0.8

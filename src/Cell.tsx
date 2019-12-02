@@ -12,15 +12,15 @@ type StyledCellProps = {
   flipCell: boolean
 }
 
-const Cell: React.FC<CellType> = ({ x, y, player, world, scalingFactor }) => {
+const Cell: React.FC<CellType> = ({ x, y, player, world, ui }) => {
   const { cellSize, worldSize, sandEdgeCells, critters } = world
   const playerCell = player.position.x === x && player.position.y === y
   const critterMatch = critters.find(critter => critter.position.x === x && critter.position.y === y)
   const sandEdgeCell = x < 2 || y < 2 || x >= worldSize - sandEdgeCells || y >= worldSize - sandEdgeCells
 
   const positionStyling = {
-    left: `${x * cellSize * scalingFactor}vh`,
-    top: `${y * cellSize * scalingFactor}vh`,
+    left: `${x * cellSize * ui.scalingFactor}vh`,
+    top: `${y * cellSize * ui.scalingFactor}vh`,
     backgroundImage: `url(${sandEdgeCell ? sand : grass})`
   }
 
@@ -43,7 +43,7 @@ const Cell: React.FC<CellType> = ({ x, y, player, world, scalingFactor }) => {
     <StyledCell
       style={positionStyling}
       cellSize={cellSize}
-      scalingFactor={scalingFactor}
+      scalingFactor={ui.scalingFactor}
       flipCell={flippedCell}
     >
       {cellLabel}
@@ -68,7 +68,7 @@ export default connect(
   state => ({
     world: state.world,
     player: state.player,
-    scalingFactor: state.ui.scalingFactor
+    ui: state.ui
   }),
   null
 )(Cell)

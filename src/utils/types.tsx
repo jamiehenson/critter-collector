@@ -2,15 +2,26 @@ export type PlayerType = {
   position: { x: number, y: number },
   direction: string,
   critters: CritterType[],
-  nearbyCritters: CritterType[]
+  nearbyCritters: CritterType[],
+  battle: { active: boolean, combatant: CritterType }
 }
 
-export type CritterType = {
+type BeingType = {
   id: number,
   name: string,
-  type: string,
   icon: string,
   position: { x: number, y: number }
+}
+
+export interface CritterType extends BeingType {
+  type: string,
+  healthPoints: number,
+  combatPoints: number,
+  level: number
+}
+
+export interface TrainerType extends BeingType {
+  critters: []
 }
 
 export type WorldType = {
@@ -27,5 +38,9 @@ export type CellType = {
   y: number,
   player: PlayerType
   world: WorldType,
+  ui: UIType
+}
+
+export type UIType = {
   scalingFactor: number
 }

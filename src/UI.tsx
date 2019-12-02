@@ -2,18 +2,39 @@ import React from "react"
 import styled from "styled-components"
 import { connect } from "react-redux"
 
-import { PlayerType } from "./utils/types"
+import BattleUI from "./BattleUI"
+import { PlayerType, UIType } from "./utils/types"
 
-type UIProps = {
-  player: PlayerType
+export type UIProps = {
+  player: PlayerType,
+  ui: UIType
 }
 
-const UI: React.FC<UIProps> = ({ player }) => {
+type FooterUIProps = {
+  player: PlayerType,
+}
+
+const UI: React.FC<UIProps> = ({ player, ui }) => {
+  if (player.battle.active) {
+    return (
+      <>
+        <BattleUI player={player} ui={ui} />
+        <FooterUI player={player} />
+      </>
+    )
+  } else {
+    return (
+      <FooterUI player={player} />
+    )
+  }
+}
+
+const FooterUI: React.FC<FooterUIProps> = ({ player }) => {
   const { critters, nearbyCritters } = player
   return (
     <StyledUI>
       <div>
-        <p>Your Critters</p>
+        <p>Your Critters ({critters.length})</p>
         <CritterList>{critters.map((critter) => critter.icon).join(" ")}</CritterList>
       </div>
       <div>
@@ -33,7 +54,6 @@ const StyledUI = styled.div`
   margin: 1rem;
   background: rgba(40, 40, 40, 0.5);
   border: 1px solid black;
-  border-radius: 5px;
   padding: 1rem;
   color: white;
   font-weight: bold;
@@ -49,4 +69,4 @@ const CritterList = styled.div`
   font-size: 3rem;
 `
 
-export default connect((state) => ({ player: state.player }), null)(UI)
+export default connect((state) => ({ player: state.player, ui: state.ui }), null)(UI)
