@@ -88,7 +88,6 @@ const BattleUI: React.FC<BattleUIProps> = ({ ui, player, addCritterToPlayer, rem
         ))}
       </FightScreen>
       <button onClick={() => advanceFromBattle()}>Advance</button>
-
     </StyledBattleUI>
   )
 }
@@ -114,7 +113,7 @@ const getTypeIcon = (type) => {
 const StyledBattleUI = styled.div<StyledBattleUIProps>`
   width: calc(100% - 4rem);
   display: flex;
-  height: calc(${({ scaling }) => 100 * scaling}vh - 7rem - 100px);
+  height: calc(${({ scaling }) => 100 * scaling}vh - 7rem - 150px);
   position: absolute;
   top: 0;
   margin: 1rem;
@@ -131,6 +130,19 @@ const StyledBattleUI = styled.div<StyledBattleUIProps>`
   }
   h2 {
     margin: 0;
+  }
+  button {
+    -webkit-appearance: none;
+    padding: 0.5rem 1.5rem;
+    background: black;
+    border: 0;
+    margin: 0.5rem;
+    color: white;
+    font-size: 1rem;
+    border-radius: 5px;
+    text-transform: uppercase;
+    font-family: 'Press Start 2P', sans-serif;
+    cursor: pointer;
   }
 `
 

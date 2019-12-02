@@ -32,33 +32,59 @@ const UI: React.FC<UIProps> = ({ player, ui }) => {
 const FooterUI: React.FC<FooterUIProps> = ({ player }) => {
   const { critters, nearbyCritters } = player
   return (
-    <StyledUI>
+    <StyledFooterUI>
       <div>
-        <p>Your Critters ({critters.length})</p>
-        <CritterList>{critters.map((critter) => critter.icon).join(" ")}</CritterList>
+        <h3>Your Critters ({critters.length})</h3>
+        <CritterList>
+          {critters.map((critter) => (
+            <div key={critter.id}>
+              <span className="icon">{critter.icon}</span>
+              <span className="stats">
+                <p>LV: {critter.level}</p>
+                <p>HP: {critter.healthPoints}</p>
+              </span>
+            </div>
+          ))}
+        </CritterList>
       </div>
       <div>
-        <p>Nearby Critters ({nearbyCritters.length})</p>
-        <CritterList>{nearbyCritters.map((critter) => critter.icon).join(" ")}</CritterList>
+        <h3>Nearby ({nearbyCritters.length})</h3>
+        <CritterList>
+          {nearbyCritters.map((critter) => (
+            <span key={critter.id} className="icon">{critter.icon}</span>
+          ))}
+        </CritterList>
       </div>
-    </StyledUI>
+    </StyledFooterUI>
   )
 }
 
-const StyledUI = styled.div`
-  width: calc(100% - 4rem);
+const StyledFooterUI = styled.div`
+  width: calc(100% - 3rem);
   display: flex;
-  height: 100px;
+  height: 150px;
   position: absolute;
   bottom: 0;
   margin: 1rem;
-  background: rgba(40, 40, 40, 0.5);
-  border: 1px solid black;
-  padding: 1rem;
+  background: rgba(40, 40, 40, 0.4);
+  border-radius: 5px;
+  padding: 0.5rem;
   color: white;
   font-weight: bold;
-  div {
+  > div {
     flex: 1;
+    padding: 0.5rem;
+    margin: 0.25rem;
+    background: rgba(40, 40, 40, 0.4);
+    border-radius: 5px;
+    &:last-child {
+      width: 150px;
+      flex: none;
+    }
+  }
+  h3 {
+    margin: 0;
+    font-size: 0.8rem;
   }
   p {
     margin: 0;
@@ -66,7 +92,20 @@ const StyledUI = styled.div`
 `
 
 const CritterList = styled.div`
-  font-size: 3rem;
+  margin-top: 0.5rem;
+  > div { 
+    display: inline-flex;
+    align-items: center;
+    width: calc(100% / 3);
+  }
+  .icon {
+    font-size: 2rem;
+  }
+  .stats {
+    font-size: 0.6rem;
+    line-height: 1rem;
+    margin-left: 0.5rem;
+  }
 `
 
 export default connect((state) => ({ player: state.player, ui: state.ui }), null)(UI)
