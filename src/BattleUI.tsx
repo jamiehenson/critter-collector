@@ -25,15 +25,15 @@ const BattleUI: React.FC<UIProps> = ({ ui, player }) => {
   let battleLog: String[] = []
   let yourGo: boolean = true
 
-  while (yourCritter.healthPoints > 0 && theirCritter.healthPoints > 0) {
+  while (yourCritter.healthPoints * yourCritter.level > 0 && theirCritter.healthPoints * theirCritter.level > 0) {
     if (yourGo) {
-      const attack = yourCritter.combatPoints * typeModifiers[yourCritter.type][theirCritter.type]
+      const attack = yourCritter.combatPoints * typeModifiers[yourCritter.type][theirCritter.type] * yourCritter.level
       theirCritter.healthPoints -= attack
-      battleLog.push(`${you.titleisedName} hits ${them.titleisedName} for ${attack}!`)
+      battleLog.push(`${you.titleisedName} hits ${them.titleisedName} for (${yourCritter.combatPoints * yourCritter.level} x ${typeModifiers[yourCritter.type][theirCritter.type]}) ${attack}!`)
     } else {
-      const attack = theirCritter.combatPoints * typeModifiers[theirCritter.type][yourCritter.type]
+      const attack = theirCritter.combatPoints * typeModifiers[theirCritter.type][yourCritter.type] * theirCritter.level
       yourCritter.healthPoints -= attack
-      battleLog.push(`${them.titleisedName} hits ${you.titleisedName} for ${attack}!`)
+      battleLog.push(`${them.titleisedName} hits ${you.titleisedName} for (${theirCritter.combatPoints * theirCritter.level} x ${typeModifiers[theirCritter.type][yourCritter.type]}) ${attack}!`)
     }
     yourGo = !yourGo
   }
@@ -54,7 +54,8 @@ const BattleUI: React.FC<UIProps> = ({ ui, player }) => {
             <span className="type">{you.typeIcon}</span>
           </CritterIcon>
           <p>{you.titleisedName}</p>
-          <small>(HP: {you.critter.healthPoints}, CP: {you.critter.combatPoints})</small>
+          <small>Lv. {you.critter.level}</small>
+          <small>(HP: {you.critter.healthPoints * you.critter.level}, CP: {you.critter.combatPoints * you.critter.level})</small>
         </div>
         <div>
           VS
@@ -65,7 +66,8 @@ const BattleUI: React.FC<UIProps> = ({ ui, player }) => {
             <span className="type">{them.typeIcon}</span>
           </CritterIcon>
           <p>{them.titleisedName}</p>
-          <small>(HP: {them.critter.healthPoints}, CP: {them.critter.combatPoints})</small>
+          <small>Lv. {them.critter.level}</small>
+          <small>(HP: {them.critter.healthPoints * them.critter.level}, CP: {them.critter.combatPoints * them.critter.level})</small>
         </div>
       </FightIntro>
       <FightScreen>
@@ -109,7 +111,7 @@ const StyledBattleUI = styled.div<StyledBattleUIProps>`
     margin: 0;
   }
   h2 {
-    margin-bottom: 0.5rem;
+    margin: 0;
   }
 `
 
@@ -117,18 +119,26 @@ const FightIntro = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex: 1;
   > div {
     text-align: center;
     padding: 1rem;
   }
   small {
+    display: block;
+    margin-top: 0.5rem;
     font-size: 0.6rem;
   }
 `
 
 const FightScreen = styled.div`
+  width: 100%;
+  height: 200px;
+  overflow-y: auto;
+  background: rgba(40, 40, 40, 0.75);
+  margin-top: 1rem;
   p {
-    font-size: 1rem;
+    font-size: 0.8rem;
     margin: 0.5rem;
   }
 `
@@ -136,7 +146,13 @@ const FightScreen = styled.div`
 const CritterIcon = styled.div`
   font-size: 6rem;
   position: relative;
-  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  width: 6rem;
+  height: 6rem;
+  border-radius: 5px;
   .type {
     position: absolute;
     font-size: 2rem;
