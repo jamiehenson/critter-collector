@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Critter Collector",
+  "name": "Critter Collector interview exercise",
   "icons": [
     {
       "src": "favicon.ico",
