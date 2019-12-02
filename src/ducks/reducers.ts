@@ -64,6 +64,7 @@ const gameReducer = (state, action) => {
       const yPos = Math.floor(Math.random() * state.world.worldSize)
       const newCritters = state.world.critters
       const newCritterState = {
+        id: state.world.critterCounter,
         position: { x: xPos, y: yPos },
         healthPoints: Math.floor(Math.random() * 100 + 50),
         combatPoints: Math.floor(Math.random() * 20 + 20),
@@ -71,25 +72,47 @@ const gameReducer = (state, action) => {
       }
       const randomCritter = Object.assign({}, allCritters[Math.floor(Math.random() * allCritters.length)], newCritterState)
       newCritters.push(randomCritter)
-      return Object.assign({}, state, { world: { ...state.world, critters: newCritters } })
+      return Object.assign({}, state, {
+        world: { ...state.world, critterCounter: state.world.critterCounter + 1, critters: newCritters }
+      })
     }
     case ACTIONS.Actions.ADD_CRITTER_TO_PLAYER: {
       const newCritters = state.player.critters
-      const newCritterState = {
-        healthPoints: Math.floor(Math.random() * 100 + 50),
-        combatPoints: Math.floor(Math.random() * 20 + 20),
-        level: Math.ceil(Math.random() * 3)
-      }
-      const randomCritter = Object.assign({}, allCritters[Math.floor(Math.random() * allCritters.length)], newCritterState)
 
       if (action.payload) {
-        const critterMatch = allCritters.find((critter) => critter.id === action.payload.critterID)
+        const critterMatch = state.world.critters.find((critter) => critter.id === action.payload.id)
         newCritters.push(critterMatch)
       } else {
+        const newCritterState = {
+          id: state.world.critterCounter,
+          healthPoints: Math.floor(Math.random() * 100 + 50),
+          combatPoints: Math.floor(Math.random() * 20 + 20),
+          level: Math.ceil(Math.random() * 3)
+        }
+        const randomCritter = Object.assign({}, allCritters[Math.floor(Math.random() * allCritters.length)], newCritterState)
         newCritters.push(randomCritter)
       }
 
-      return Object.assign({}, state, { player: { ...state.player, critters: newCritters } })
+      return Object.assign({}, state, { player: { ...state.player, critters: newCritters }, world: { ...state.world, critterCounter: state.world.critterCounter + 1 } })
+    }
+    case ACTIONS.Actions.ADVANCE_FROM_BATTLE: {
+      return Object.assign({}, state, { player: { ...state.player, battle: { active: false, combatant: null } } })
+    }
+    case ACTIONS.Actions.REMOVE_CRITTER_FROM_WORLD: {
+      const newNearbyCritters = [...state.player.nearbyCritters]
+      const newWorldCritters = [...state.world.critters]
+      const nearbyCritterMatch = newNearbyCritters.find((critter) => critter.id === action.payload.id)
+      const worldCritterMatch = newWorldCritters.find((critter) => critter.id === action.payload.id)
+      if (worldCritterMatch && nearbyCritterMatch) {
+        newNearbyCritters.splice(newNearbyCritters.indexOf(nearbyCritterMatch), 1)
+        newWorldCritters.splice(newWorldCritters.indexOf(worldCritterMatch), 1)
+        return Object.assign({}, state, {
+          world: { ...state.world, critters: newWorldCritters },
+          player: { ...state.player, nearbyCritters: newNearbyCritters }
+        })
+      } else {
+        return state
+      }
     }
     default:
       return state;

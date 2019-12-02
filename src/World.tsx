@@ -24,9 +24,9 @@ type StyledWorldProps = {
 
 const World: React.FC<WorldProps> = ({ world, player, scalingFactor, addCritterToWorld, addCritterToPlayer }) => {
   const cells: any[] = []
-  const { worldSize, critterCount, cellSize, critters } = world
-  for (let i = 0; i < critterCount; i++) {
-    if (critters.length >= critterCount) { break };
+  const { worldSize, critterMaxPopulation, cellSize, critters } = world
+  for (let i = 0; i < critterMaxPopulation; i++) {
+    if (critters.length >= critterMaxPopulation) { break };
     addCritterToWorld();
   }
 

@@ -1,90 +1,90 @@
 const critters = [
   {
-    id: 1,
+    critterId: 1,
     name: "dog",
     type: "fire",
     icon: "🐶"
   },
   {
-    id: 2,
+    critterId: 2,
     name: "cat",
     type: "fire",
     icon: "🐱"
   },
   {
-    id: 3,
+    critterId: 3,
     name: "mouse",
     type: "grass",
     icon: "🐭"
   },
   {
-    id: 4,
+    critterId: 4,
     name: "rabbit",
     type: "grass",
     icon: "🐰"
   },
   {
-    id: 5,
+    critterId: 5,
     name: "gerbil",
     type: "grass",
     icon: "🐹"
   },
   {
-    id: 6,
+    critterId: 6,
     name: "fox",
     type: "water",
     icon: "🦊"
   },
   {
-    id: 7,
+    critterId: 7,
     name: "bear",
     type: "water",
     icon: "🐻"
   },
   {
-    id: 8,
+    critterId: 8,
     name: "panda",
     type: "water",
     icon: "🐼"
   },
   {
-    id: 9,
+    critterId: 9,
     name: "koala",
     type: "water",
     icon: "🐨"
   },
   {
-    id: 10,
+    critterId: 10,
     name: "tiger",
     type: "fire",
     icon: "🐯"
   },
   {
-    id: 11,
+    critterId: 11,
     name: "lion",
     type: "fire",
     icon: "🦁"
   },
   {
-    id: 12,
+    critterId: 12,
     name: "cow",
     type: "grass",
     icon: "🐮"
   },
   {
-    id: 13,
+    critterId: 13,
     name: "pig",
     type: "grass",
     icon: "🐷"
   },
   {
-    id: 14,
+    critterId: 14,
     name: "frog",
     type: "water",
     icon: "🐸"
   },
   {
-    id: 15,
+    critterId: 15,
     name: "monkey",
     type: "fire",
     icon: "🐵"

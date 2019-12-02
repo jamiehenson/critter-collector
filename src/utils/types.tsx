@@ -29,8 +29,9 @@ export type WorldType = {
   worldSize: number,
   edgeCellPosition: number,
   sandEdgeCells: number,
-  critterCount: number,
-  critters: CritterType[]
+  critterMaxPopulation: number,
+  critters: CritterType[],
+  critterCounter: number
 }
 
 export type CellType = {
