@@ -44,5 +44,6 @@ export type CellType = {
 }
 
 export type UIType = {
-  scalingFactor: number
+  scalingFactor: number,
+  gameState: string
 }

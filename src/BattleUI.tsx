@@ -3,7 +3,7 @@ import styled from "styled-components"
 import { connect } from "react-redux"
 
 import { UIProps } from "./UI"
-import { addCritterToPlayer, advanceFromBattle, removeCritterFromWorld } from "./ducks/actions"
+import { addCritterToPlayer, advanceFromBattle, removeCritterFromWorld, updateActiveCritterFighter, setGameState } from "./ducks/actions"
 import { typeModifiers } from "./utils/critters"
 import theme from "./utils/theme"
 
@@ -14,11 +14,18 @@ type StyledBattleUIProps = {
 interface BattleUIProps extends UIProps {
   addCritterToPlayer: Function,
   advanceFromBattle: Function,
-  removeCritterFromWorld: Function
+  removeCritterFromWorld: Function,
+  updateActiveCritterFighter: Function,
+  setGameState: Function
 }
 
-const BattleUI: React.FC<BattleUIProps> = ({ ui, player, addCritterToPlayer, removeCritterFromWorld, advanceFromBattle }) => {
-  const yourCritter = player.critters[0]
+const BattleUI: React.FC<BattleUIProps> = ({ ui, player, advanceFromBattle, addCritterToPlayer, removeCritterFromWorld, updateActiveCritterFighter, setGameState }) => {
+  const yourCritter = player.critters.find((critter) => critter.activeFighter)
+
+  if (!yourCritter) {
+    return null;
+  }
+
   const theirCritter = player.battle.combatant
   const you = {
     critter: yourCritter,
@@ -31,30 +38,24 @@ const BattleUI: React.FC<BattleUIProps> = ({ ui, player, addCritterToPlayer, rem
     typeIcon: getTypeIcon(theirCritter.type)
   }
 
-  let battleLog: String[] = []
-  let yourGo: boolean = true
+  const battle = computeBattle(you, them)
 
-  while (yourCritter.healthPoints * yourCritter.level > 0 && theirCritter.healthPoints * theirCritter.level > 0) {
-    if (yourGo) {
-      const attack = yourCritter.combatPoints * typeModifiers[yourCritter.type][theirCritter.type] * yourCritter.level
-      theirCritter.healthPoints = Math.max(theirCritter.healthPoints - attack, 0)
-      battleLog.push(`${you.titleisedName} hits ${them.titleisedName} for (${yourCritter.combatPoints * yourCritter.level} x ${typeModifiers[yourCritter.type][theirCritter.type]}) ${attack}!`)
+  if (battle.playerLoss) {
+    battle.log.push(`${them.titleisedName} wins! ${you.titleisedName} faints.`)
+    const aliveCritters = [...player.critters.filter((critter) => critter.healthPoints > 0)]
+    if (aliveCritters.length > 0) {
+      aliveCritters.splice(aliveCritters.indexOf(you.critter), 1)
+      updateActiveCritterFighter(aliveCritters[0])
+      battle.log.push(`Go ${aliveCritters[0].name}!`)
     } else {
-      const attack = theirCritter.combatPoints * typeModifiers[theirCritter.type][yourCritter.type] * theirCritter.level
-      yourCritter.healthPoints = Math.max(yourCritter.healthPoints - attack, 0)
-      battleLog.push(`${them.titleisedName} hits ${you.titleisedName} for (${theirCritter.combatPoints * theirCritter.level} x ${typeModifiers[theirCritter.type][yourCritter.type]}) ${attack}!`)
+      battle.log.push("All critters have fainted!")
     }
-    yourGo = !yourGo
-  }
-
-  if (yourCritter.healthPoints === 0) {
-    battleLog.push(`${them.titleisedName} wins! ${you.titleisedName} faints.`)
   } else {
     if (!player.critters.find((critter) => critter.id === them.critter.id)) {
       addCritterToPlayer(them.critter)
       removeCritterFromWorld(them.critter)
     }
-    battleLog.push(`${you.titleisedName} wins! ${them.titleisedName} caught.`)
+    battle.log.push(`${you.titleisedName} wins! ${them.titleisedName} caught.`)
   }
 
   return (
@@ -84,7 +85,7 @@ const BattleUI: React.FC<BattleUIProps> = ({ ui, player, addCritterToPlayer, rem
         </div>
       </FightIntro>
       <FightScreen>
-        {battleLog.map((logItem, i) => (
+        {battle.log.map((logItem, i) => (
           <p key={i}>{logItem}</p>
         ))}
       </FightScreen>
@@ -93,10 +94,31 @@ const BattleUI: React.FC<BattleUIProps> = ({ ui, player, addCritterToPlayer, rem
   )
 }
 
+const computeBattle = (you, them) => {
+  let battleLog: String[] = []
+  let yourGo: boolean = true
+
+  while (you.critter.healthPoints * you.critter.level > 0 && them.critter.healthPoints * them.critter.level > 0) {
+    if (yourGo) {
+      const attack = you.critter.combatPoints * typeModifiers[you.critter.type][them.critter.type] * you.critter.level
+      them.critter.healthPoints = Math.max(them.critter.healthPoints - attack, 0)
+      battleLog.push(`${you.titleisedName} hits ${them.titleisedName} for (${you.critter.combatPoints * you.critter.level} x ${typeModifiers[you.critter.type][them.critter.type]}) ${attack}!`)
+    } else {
+      const attack = them.critter.combatPoints * typeModifiers[them.critter.type][you.critter.type] * them.critter.level
+      you.critter.healthPoints = Math.max(you.critter.healthPoints - attack, 0)
+      battleLog.push(`${them.titleisedName} hits ${you.titleisedName} for (${them.critter.combatPoints * them.critter.level} x ${typeModifiers[them.critter.type][you.critter.type]}) ${attack}!`)
+    }
+    yourGo = !yourGo
+  }
+  return { log: battleLog, playerLoss: you.critter.healthPoints === 0 }
+}
+
 const mapDispatchToProps = (dispatch) => ({
   addCritterToPlayer: (critter) => dispatch(addCritterToPlayer(critter)),
   removeCritterFromWorld: (critter) => dispatch(removeCritterFromWorld(critter)),
-  advanceFromBattle: () => dispatch(advanceFromBattle())
+  advanceFromBattle: () => dispatch(advanceFromBattle()),
+  updateActiveCritterFighter: (critter) => dispatch(updateActiveCritterFighter(critter)),
+  setGameState: (state) => dispatch(setGameState(state))
 })
 
 export default connect(null, mapDispatchToProps)(BattleUI)

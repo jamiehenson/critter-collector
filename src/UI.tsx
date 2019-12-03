@@ -15,18 +15,26 @@ type FooterUIProps = {
 }
 
 const UI: React.FC<UIProps> = ({ player, ui }) => {
-  if (player.battle.active) {
-    return (
-      <>
-        <BattleUI player={player} ui={ui} />
-        <FooterUI player={player} />
-      </>
-    )
-  } else {
-    return (
+  return (
+    <>
+      {ui.gameState === "menu" && <MenuUI>IT STARTS</MenuUI>}
+      {ui.gameState === "end" && <EndUI>IT'S OVER MATE</EndUI>}
+      {player.battle.active && <BattleUI player={player} ui={ui} />}
       <FooterUI player={player} />
-    )
-  }
+    </>
+  )
+}
+
+const MenuUI: React.FC = () => {
+  return (
+    <StyledMenuUI>It starts</StyledMenuUI>
+  )
+}
+
+const EndUI: React.FC = () => {
+  return (
+    <StyledEndUI>It ends</StyledEndUI>
+  )
 }
 
 const FooterUI: React.FC<FooterUIProps> = ({ player }) => {
@@ -58,6 +66,14 @@ const FooterUI: React.FC<FooterUIProps> = ({ player }) => {
     </StyledFooterUI>
   )
 }
+
+const StyledMenuUI = styled.div`
+  position: relative;
+`
+
+const StyledEndUI = styled.div`
+  position: relative;
+`
 
 const StyledFooterUI = styled.div`
   width: calc(100% - 3rem);

@@ -1,4 +1,4 @@
-import ACTIONS from "./actions";
+import ACTIONS, { setGameState } from "./actions";
 import allCritters from "../utils/critters";
 
 const gameReducer = (state, action) => {
@@ -8,7 +8,7 @@ const gameReducer = (state, action) => {
       let { position, direction, battle } = state.player
       const { worldSize, critters } = state.world
 
-      if (battle.active) { return state; }
+      if (state.ui.gameState !== "play" || battle.active) { return state; }
 
       const obstructions = {
         up: critters.find((critter) => critter.position.x === position.x && critter.position.y === position.y - 1),
@@ -97,7 +97,11 @@ const gameReducer = (state, action) => {
       return Object.assign({}, state, { player: { ...state.player, critters: newCritters }, world: { ...state.world, critterCounter: state.world.critterCounter + 1 } })
     }
     case ACTIONS.Actions.ADVANCE_FROM_BATTLE: {
-      return Object.assign({}, state, { player: { ...state.player, battle: { active: false, combatant: null } } })
+      if (state.player.critters.find((critter) => critter.healthPoints > 0)) {
+        return Object.assign({}, state, { player: { ...state.player, battle: { active: false, combatant: null } } })
+      } else {
+        return Object.assign({}, state, { player: { ...state.player, battle: { active: false, combatant: null } }, ui: { ...state.ui, gameState: "end" } })
+      }
     }
     case ACTIONS.Actions.REMOVE_CRITTER_FROM_WORLD: {
       const newNearbyCritters = [...state.player.nearbyCritters]
@@ -114,6 +118,14 @@ const gameReducer = (state, action) => {
       } else {
         return state
       }
+    }
+    case ACTIONS.Actions.UPDATE_ACTIVE_CRITTER_FIGHTER: {
+      console.log(action.payload)
+      const newCritters = state.player.critters.map((critter) => ({ ...critter, activeFighter: critter.id === action.payload.id }))
+      return Object.assign({}, state, { player: { ...state.player, critters: newCritters } })
+    }
+    case ACTIONS.Actions.SET_GAME_STATE: {
+      return Object.assign({}, state, { ui: { ...state.ui, gameState: action.payload } })
     }
     default:
       return state;

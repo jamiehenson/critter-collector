@@ -27,7 +27,8 @@ const initialState = {
     battle: { active: false, combatant: null }
   },
   ui: {
-    scalingFactor: 0.8
+    scalingFactor: 0.8,
+    gameState: "play"
   }
 };
 
