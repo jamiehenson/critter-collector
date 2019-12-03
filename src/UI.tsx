@@ -110,9 +110,8 @@ const danceAnimation = keyframes`
 
 const StyledMenuUI = styled.div`
   position: relative;
-  height: calc(100% - 40px - 1.25rem);
-  margin: -1px;
-  padding: 2rem;
+  height: calc(100% - 2.5vh);
+  padding: 4vh;
   color: white;
   background: rgba(0, 0, 0, 0.9);
   line-height: 2;
@@ -125,46 +124,47 @@ const StyledMenuUI = styled.div`
     margin-top: 0;
   }
   h1 {
-    font-size: 3.5rem;
+    font-size: 6vh;
     text-align: center;
     pointer-events: none;
     > div span {
       ${letterHues()}
       &:nth-child(8) {
         display: block !important;
-        height: 1rem;
+        height: 2vh;
       }
     }
   }
   .bigIconMenu, .bigIconEnd {
-    font-size: 7rem;
-    width: 7rem;
+    font-size: 15vh;
+    width: 15vh;
     margin: 0;
     padding: 0;
-    margin-top: -3.5rem;
+    margin-top: -7vh;
   }
   .bigIconMenu {
     width: auto;
+    pointer-events: none;
     span {
-      margin: 0 0.5rem;
+      margin: 0 1vh;
       animation: ${danceAnimation} 3s infinite linear;
       display: inline-block;
     }
   }
   small {
-    margin-top: 1.5rem;
-    font-size: 0.7rem;
+    margin-top: 3vh;
+    font-size: 1.4vh;
   }
 `
 
 export const UIButton = styled.button`
   -webkit-appearance: none;
-  padding: 0.5rem 1.5rem;
+  padding: 1vh 3vh;
   background: black;
   border: 0;
-  margin: 0.5rem;
+  margin: 1vh;
   color: white;
-  font-size: 1rem;
+  font-size: 2vh;
   border-radius: 5px;
   text-transform: uppercase;
   font-family: 'Press Start 2P', sans-serif;
@@ -176,32 +176,32 @@ export const UIButton = styled.button`
 `
 
 const StyledFooterUI = styled.div`
-  width: calc(100% - 3rem);
+  width: calc(100% - 6vh);
   display: flex;
-  height: 150px;
+  height: 20vh;
   position: absolute;
   bottom: 0;
-  margin: 1rem;
+  margin: 2vh;
   background: rgba(40, 40, 40, 0.4);
   border-radius: 5px;
-  padding: 0.5rem;
+  padding: 1vh;
   color: white;
   font-weight: bold;
   text-shadow: 0 0 2px black;
   > div {
     flex: 1;
-    padding: 0.5rem;
-    margin: 0.25rem;
+    padding: 2vh;
+    margin: 0.5vh;
     background: rgba(40, 40, 40, 0.4);
     border-radius: 5px;
     &:last-child {
-      width: 150px;
+      width: 20vh;
       flex: none;
     }
   }
   h3 {
     margin: 0;
-    font-size: 0.8rem;
+    font-size: 1.6vh;
   }
   p {
     margin: 0;
@@ -209,45 +209,47 @@ const StyledFooterUI = styled.div`
 `
 
 const CritterList = styled.div`
-  margin-top: 0.5rem;
+  margin-top: 1vh;
   > div { 
     display: inline-flex;
     align-items: center;
     width: calc(100% / 3);
   }
   .icon {
-    font-size: 2rem;
+    font-size: 4vh;
     position: relative;
-    width: 2rem;
-    height: 2rem;
+    width: 4vh;
+    height: 4vh;
   }
   .active {
     position: absolute;
     bottom: 0;
     right: 0;
-    width: 0.75rem;
-    height: 0.75rem;
-    font-size: 0.75rem;
+    width: 1.5vh;
+    height: 1.5vh;
+    font-size: 1.5vh;
   }
   .stats {
-    font-size: 0.6rem;
-    line-height: 1rem;
-    margin-left: 0.5rem;
+    font-size: 1.2vh;
+    line-height: 2vh;
+    margin-left: 1vh;
   }
 `
 
 const ClinicNote = styled.div`
-  width: calc(100% - 2rem);
+  width: calc(100% - 4vh);
   background: rgba(255,0,0,0.6);
-  height: calc(100% - 2rem);
-  margin-bottom: calc(-150px + 1.5rem);
+  height: calc(100% - 4vh);
+  margin-bottom: calc(-20vh + 3vh);
   z-index: 2;
   position: relative;
-  padding: 1rem;
+  padding: 2vh;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 5px;
+  text-align: center;
+  line-height: 2;
 `
 
 const ConnectedMenuUI = connect(null, (dispatch) => ({ startGame: () => dispatch(startGame()) }))(MenuUI)

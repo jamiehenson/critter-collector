@@ -66,7 +66,6 @@ const StyledWorld = styled.div<StyledWorldProps>`
   margin: 5vh;
   border-radius: 5px;
   border: 10px solid ${theme.colours.grey};
-  padding: 1px;
   background-image: url(${water});
   background-repeat: repeat;
   background-size: ${({ cellSize, scalingFactor }) => cellSize * scalingFactor}vh;

@@ -71,41 +71,41 @@ const StyledApp = styled.div`
   overflow: hidden;
   .title {
     color: white;
-    height: 40px;
+    height: 4.5vh;
     text-transform: uppercase;
     position: relative;
     text-shadow: 0 0 2px black;
-    margin: -3.1rem 5vh 0;
+    margin: -6.2vh 0 0;
     background: ${theme.colours.grey};
-    width: calc(${initialState.ui.scalingFactor * 100}vh - 10px);
+    width: calc(${initialState.ui.scalingFactor * 100}vh + 20px);
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0.5rem 1rem 1rem 1rem;
+    padding: 1vh 0 2vh;
     border-radius: 5px;
     > span:last-child {
-      margin-left: 1rem;
+      margin-left: 2vh;
     }
   }
   .critter {
     font-family: "Gill Sans", "Press Start 2P", sans-serif;
     font-style: italic;
-    font-size: 2rem;
+    font-size: 4vh;
   }
   .collector {
     font-family: "Comic Sans MS", "Press Start 2P", sans-serif;
-    font-size: 1.75rem;
+    font-size: 3.5vh;
   }
 `
 
 const DecorativeWrapper = styled.div`
   position: absolute;
-  height: calc(100vh - 0.5rem);
+  height: 99vh;
   width: 95vh;
   background: ${theme.colours.purple};
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  margin-top: 0.5rem;
+  margin-top: 1vh;
 `
 
 export default App;

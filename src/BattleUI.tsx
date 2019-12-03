@@ -133,26 +133,26 @@ const getTypeIcon = (type) => {
 }
 
 const StyledBattleUI = styled.div<StyledBattleUIProps>`
-  width: calc(100% - 4rem);
+  width: calc(100% - 8vh);
   display: flex;
-  height: calc(${({ scaling }) => 100 * scaling}vh - 7rem - 150px);
+  height: calc(${({ scaling }) => 100 * scaling}vh - 11vh - 20vh);
   position: absolute;
   top: 0;
-  margin: 1rem;
+  margin: 2vh;
   background: rgba(40, 40, 40, 0.75);
-  border: 1px solid black;
-  padding: 1rem;
+  border-radius: 5px;
+  padding: 2vh;
   color: white;
   font-weight: bold;
   align-items: center;
   flex-direction: column;
-  font-size: 2rem;
+  font-size: 3vh;
   text-shadow: 0 0 2px black;
   p {
     margin: 0;
   }
   h2 {
-    margin: 0;
+    margin: 0 0 2vh 0;
   }
 `
 
@@ -160,43 +160,43 @@ const FightIntro = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  flex: 1;
+  height: 20vh;
   > div {
     text-align: center;
-    padding: 1rem;
+    padding: 2vh;
   }
   small {
     display: block;
-    margin-top: 0.5rem;
-    font-size: 0.6rem;
+    margin-top: 1vh;
+    font-size: 1.2vh;
   }
 `
 
 const FightScreen = styled.div`
   width: 100%;
-  height: 200px;
+  flex: 1;
   overflow-y: auto;
   background: rgba(40, 40, 40, 0.75);
-  margin-top: 1rem;
+  margin: 2vh 0;
   p {
-    font-size: 0.8rem;
-    margin: 0.5rem;
+    font-size: 1.2vh;
+    margin: 1vh;
   }
 `
 
 const CritterIcon = styled.div`
-  font-size: 6rem;
+  font-size: 8vh;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 1rem;
-  width: 6rem;
-  height: 6rem;
+  margin: 0 auto 2vh;
+  width: 8vh;
+  height: 8vh;
   border-radius: 5px;
   .type {
     position: absolute;
-    font-size: 2rem;
+    font-size: 3vh;
     bottom: 0;
     right: 0;
   }
