@@ -14,6 +14,7 @@ type StyledCellProps = {
 
 const Cell: React.FC<CellType> = ({ x, y, player, world, ui }) => {
   const { cellSize, worldSize, sandEdgeCells, critters, clinic } = world
+  const { direction, nearbyCritters } = player
   const playerCell = player.position.x === x && player.position.y === y
   const critterMatch = critters.find(critter => critter.position.x === x && critter.position.y === y)
   const sandEdgeCell = x < 2 || y < 2 || x >= worldSize - sandEdgeCells || y >= worldSize - sandEdgeCells
@@ -28,15 +29,15 @@ const Cell: React.FC<CellType> = ({ x, y, player, world, ui }) => {
   let cellLabel = ""
   let flippedCell = false
   if (playerCell) {
-    if (player.direction === "up" || player.direction === "down") {
+    if (direction === "up" || direction === "down") {
       cellLabel = "🧍‍♂️"
-    } else if (player.direction === "left") {
+    } else if (direction === "left") {
       cellLabel = "🚶‍♂️"
-    } else if (player.direction === "right") {
+    } else if (direction === "right") {
       cellLabel = "🚶‍♂️"
       flippedCell = true
     }
-  } else if (critterMatch) {
+  } else if (critterMatch && nearbyCritters.find((critter) => critter.id === critterMatch.id)) {
     cellLabel = critterMatch.icon
   } else if (clinicCell) {
     cellLabel = "🏥"
