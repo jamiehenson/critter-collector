@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import { connect } from "react-redux"
 
@@ -21,6 +21,34 @@ interface BattleUIProps extends UIProps {
 const BattleUI: React.FC<BattleUIProps> = ({ ui, player, advanceFromBattle, addCritterToPlayer, removeCritterFromWorld, updateActiveCritterFighter, increaseCritterLevel }) => {
   const yourCritter = player.critters.find((critter) => critter.activeFighter)
 
+  const [battle, setBattle] = useState({ log: [""], playerLoss: false })
+
+  useEffect(() => {
+    let tempBattle = computeBattle(you, them)
+    if (tempBattle.playerLoss) {
+      tempBattle.log.push(`${them.titleisedName} wins! Your ${you.titleisedName} faints.`)
+      const aliveCritters = [...player.critters.filter((critter) => critter.healthPoints > 0)]
+      if (aliveCritters.length > 0) {
+        tempBattle.log.push(`Go ${aliveCritters[0].name}!`)
+        updateActiveCritterFighter(aliveCritters[0])
+      } else {
+        tempBattle.log.push("All critters have fainted!")
+      }
+    } else {
+      if (!player.critters.find((critter) => critter.id === them.critter.id)) {
+        addCritterToPlayer(them.critter)
+        removeCritterFromWorld(them.critter)
+      }
+      let levelText = ""
+      if (Math.random() >= 0.5) {
+        increaseCritterLevel(you.critter)
+        levelText = `They level up to Lv. ${you.critter.level}.`
+      }
+      tempBattle.log.push(`Your ${you.titleisedName} wins! ${them.titleisedName} caught.` + levelText)
+    }
+    setBattle(tempBattle)
+  }, [])
+
   if (!yourCritter) {
     return null;
   }
@@ -35,26 +63,6 @@ const BattleUI: React.FC<BattleUIProps> = ({ ui, player, advanceFromBattle, addC
     critter: theirCritter,
     titleisedName: theirCritter.name.charAt(0).toUpperCase() + theirCritter.name.slice(1).toLowerCase(),
     typeIcon: getTypeIcon(theirCritter.type)
-  }
-
-  const battle = computeBattle(you, them)
-
-  if (battle.playerLoss) {
-    battle.log.push(`${them.titleisedName} wins! ${you.titleisedName} faints.`)
-    const aliveCritters = [...player.critters.filter((critter) => critter.healthPoints > 0)]
-    if (aliveCritters.length > 0) {
-      updateActiveCritterFighter(aliveCritters[0])
-      battle.log.push(`Go ${aliveCritters[0].name}!`)
-    } else {
-      battle.log.push("All critters have fainted!")
-    }
-  } else {
-    if (!player.critters.find((critter) => critter.id === them.critter.id)) {
-      addCritterToPlayer(them.critter)
-      removeCritterFromWorld(them.critter)
-    }
-    // increaseCritterLevel(you.critter)
-    battle.log.push(`${you.titleisedName} wins! ${them.titleisedName} caught.`)
   }
 
   return (
@@ -94,18 +102,18 @@ const BattleUI: React.FC<BattleUIProps> = ({ ui, player, advanceFromBattle, addC
 }
 
 const computeBattle = (you, them) => {
-  let battleLog: String[] = []
+  let battleLog: string[] = []
   let yourGo: boolean = true
 
   while (you.critter.healthPoints * you.critter.level > 0 && them.critter.healthPoints * them.critter.level > 0) {
     if (yourGo) {
       const attack = you.critter.combatPoints * typeModifiers[you.critter.type][them.critter.type] * you.critter.level
-      them.critter.healthPoints = Math.max(them.critter.healthPoints - attack, 0)
       battleLog.push(`Your ${you.titleisedName} hits ${them.titleisedName} for (${you.critter.combatPoints * you.critter.level} x ${typeModifiers[you.critter.type][them.critter.type]}) ${attack}!`)
+      them.critter.healthPoints = Math.max(them.critter.healthPoints - attack, 0)
     } else {
       const attack = them.critter.combatPoints * typeModifiers[them.critter.type][you.critter.type] * them.critter.level
-      you.critter.healthPoints = Math.max(you.critter.healthPoints - attack, 0)
       battleLog.push(`${them.titleisedName} hits your ${you.titleisedName} for (${them.critter.combatPoints * them.critter.level} x ${typeModifiers[them.critter.type][you.critter.type]}) ${attack}!`)
+      you.critter.healthPoints = Math.max(you.critter.healthPoints - attack, 0)
     }
     yourGo = !yourGo
   }
