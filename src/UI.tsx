@@ -21,7 +21,7 @@ const UI: React.FC<UIProps> = ({ player, ui }) => {
   return (
     <>
       {ui.gameState === "menu" && <ConnectedMenuUI />}
-      {ui.gameState === "end" && <EndUI />}
+      {ui.gameState === "end" && <ConnectedEndUI />}
       {player.battle.active && <BattleUI player={player} ui={ui} />}
       <FooterUI player={player} ui={ui} />
     </>
@@ -42,12 +42,13 @@ const MenuUI: React.FC<MenuUIProps> = ({ startGame }) => {
   )
 }
 
-const EndUI: React.FC = () => {
+const EndUI: React.FC<MenuUIProps> = ({ startGame }) => {
   return (
     <StyledMenuUI>
       <h2>Game Over!</h2>
       <p>Oh no! All your Critters have fainted. Watch out for the higher leveled Critters of dangerous types, and make sure to use the Clinic to heal injured/fainted Critters.</p>
       <div className="bigIconEnd"><span role="img" aria-label="Game Over">😿</span></div>
+      <UIButton onClick={() => window.location.reload()}>LET'S GO AGAIN!</UIButton>
     </StyledMenuUI>
   )
 }
@@ -245,5 +246,6 @@ const ClinicNote = styled.div`
 `
 
 const ConnectedMenuUI = connect(null, (dispatch) => ({ startGame: () => dispatch(startGame()) }))(MenuUI)
+const ConnectedEndUI = connect(null, (dispatch) => ({ startGame: () => dispatch(startGame()) }))(EndUI)
 
 export default connect((state) => ({ player: state.player, ui: state.ui }))(UI)
