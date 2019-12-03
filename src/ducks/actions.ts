@@ -10,7 +10,7 @@ const Actions = {
   ADD_CLINIC_TO_WORLD: "ADD_CLINIC_TO_WORLD"
 };
 
-export const updatePlayerPosition = key => ({
+export const updatePlayerPosition = (key?) => ({
   type: Actions.UPDATE_PLAYER_POSITION,
   payload: key
 });

@@ -27,26 +27,28 @@ const gameReducer = (state, action) => {
         right: checkObstruction("x", 1)
       }
 
-      if (["w", "ArrowUp", "87", "38"].includes(key)) {
-        if (!obstructions.up) {
-          position = { x: position.x, y: Math.max(position.y - 1, 0) };
+      if (key) {
+        if (["w", "ArrowUp", "87", "38"].includes(key)) {
+          if (!obstructions.up) {
+            position = { x: position.x, y: Math.max(position.y - 1, 0) };
+          }
+          direction = "up";
+        } else if (["s", "ArrowDown", "83", "40"].includes(key)) {
+          if (!obstructions.down) {
+            position = { x: position.x, y: Math.min(position.y + 1, worldSize - 1) };
+          }
+          direction = "down";
+        } else if (["a", "ArrowLeft", "65", "37"].includes(key)) {
+          if (!obstructions.left) {
+            position = { x: Math.max(position.x - 1, 0), y: position.y };
+          }
+          direction = "left";
+        } else if (["d", "ArrowRight", "68", "39"].includes(key)) {
+          if (!obstructions.right) {
+            position = { x: Math.min(position.x + 1, worldSize - 1), y: position.y };
+          }
+          direction = "right";
         }
-        direction = "up";
-      } else if (["s", "ArrowDown", "83", "40"].includes(key)) {
-        if (!obstructions.down) {
-          position = { x: position.x, y: Math.min(position.y + 1, worldSize - 1) };
-        }
-        direction = "down";
-      } else if (["a", "ArrowLeft", "65", "37"].includes(key)) {
-        if (!obstructions.left) {
-          position = { x: Math.max(position.x - 1, 0), y: position.y };
-        }
-        direction = "left";
-      } else if (["d", "ArrowRight", "68", "39"].includes(key)) {
-        if (!obstructions.right) {
-          position = { x: Math.min(position.x + 1, worldSize - 1), y: position.y };
-        }
-        direction = "right";
       }
 
       // Detection of critter proximity
