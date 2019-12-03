@@ -31,7 +31,7 @@ const World: React.FC<WorldProps> = ({ world, player, scalingFactor, addCritterT
     addCritterToWorld();
   }
 
-  if (player.critters.length === 0) {
+  if (player.critters.length < 2) {
     addCritterToPlayer()
   }
 

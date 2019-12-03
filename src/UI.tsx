@@ -46,10 +46,13 @@ const FooterUI: React.FC<FooterUIProps> = ({ player }) => {
         <CritterList>
           {critters.map((critter) => (
             <div key={critter.id}>
-              <span className="icon">{critter.icon}</span>
+              <span className="icon">
+                <span className="icon-image">{critter.icon}</span>
+                <span className="active">{critter.activeFighter ? "✅" : ""}</span>
+              </span>
               <span className="stats">
                 <p>LV: {critter.level}</p>
-                <p>HP: {critter.healthPoints}</p>
+                <p>HP: {critter.healthPoints * critter.level}</p>
               </span>
             </div>
           ))}
@@ -117,6 +120,17 @@ const CritterList = styled.div`
   }
   .icon {
     font-size: 2rem;
+    position: relative;
+    width: 2rem;
+    height: 2rem;
+  }
+  .active {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 0.75rem;
+    height: 0.75rem;
+    font-size: 0.75rem;
   }
   .stats {
     font-size: 0.6rem;

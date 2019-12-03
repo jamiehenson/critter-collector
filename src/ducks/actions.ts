@@ -5,7 +5,8 @@ const Actions = {
   ADVANCE_FROM_BATTLE: "ADVANCE_FROM_BATTLE",
   REMOVE_CRITTER_FROM_WORLD: "REMOVE_CRITTER_FROM_WORLD",
   UPDATE_ACTIVE_CRITTER_FIGHTER: "UPDATE_ACTIVE_CRITTER_FIGHTER",
-  SET_GAME_STATE: "SET_GAME_STATE"
+  START_GAME: "START_GAME",
+  INCREASE_CRITTER_LEVEL: "INCREASE_CRITTER_LEVEL"
 };
 
 export const updatePlayerPosition = key => ({
@@ -36,9 +37,13 @@ export const updateActiveCritterFighter = (critter) => ({
   payload: critter
 })
 
-export const setGameState = (state) => ({
-  type: Actions.SET_GAME_STATE,
-  payload: state
+export const startGame = () => ({
+  type: Actions.START_GAME
+})
+
+export const increaseCritterLevel = (critter) => ({
+  type: Actions.INCREASE_CRITTER_LEVEL,
+  payload: critter
 })
 
 export default {
@@ -47,6 +52,7 @@ export default {
   addCritterToPlayer,
   removeCritterFromWorld,
   updateActiveCritterFighter,
-  setGameState,
+  startGame,
+  increaseCritterLevel,
   Actions
 };

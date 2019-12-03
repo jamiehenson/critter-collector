@@ -1,4 +1,4 @@
-import ACTIONS, { setGameState } from "./actions";
+import ACTIONS from "./actions";
 import allCritters from "../utils/critters";
 
 const gameReducer = (state, action) => {
@@ -80,7 +80,9 @@ const gameReducer = (state, action) => {
       const newCritters = state.player.critters
 
       if (action.payload) {
-        const critterMatch = state.world.critters.find((critter) => critter.id === action.payload.id)
+        const critterMatch = [...state.world.critters].find((critter) => critter.id === action.payload.id)
+        critterMatch.activeFighter = false
+        delete critterMatch.position
         newCritters.push(critterMatch)
       } else {
         const newCritterState = {
@@ -120,12 +122,18 @@ const gameReducer = (state, action) => {
       }
     }
     case ACTIONS.Actions.UPDATE_ACTIVE_CRITTER_FIGHTER: {
-      console.log(action.payload)
-      const newCritters = state.player.critters.map((critter) => ({ ...critter, activeFighter: critter.id === action.payload.id }))
+      const newCritters = [...state.player.critters].map((critter) => ({ ...critter, activeFighter: critter.id === action.payload.id }))
       return Object.assign({}, state, { player: { ...state.player, critters: newCritters } })
     }
-    case ACTIONS.Actions.SET_GAME_STATE: {
-      return Object.assign({}, state, { ui: { ...state.ui, gameState: action.payload } })
+    case ACTIONS.Actions.START_GAME: {
+      return Object.assign({}, state, { ui: { ...state.ui, gameState: "play" } })
+    }
+    case ACTIONS.Actions.INCREASE_CRITTER_LEVEL: {
+      const newCritters = [...state.player.critters].map((critter) => {
+        if (critter.id === action.payload.id) { critter.level += 1 }
+        return critter
+      })
+      return Object.assign({}, state, { player: { ...state.player, critters: newCritters } })
     }
     default:
       return state;
