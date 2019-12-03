@@ -28,7 +28,7 @@ const initialState = {
   },
   ui: {
     scalingFactor: 0.8,
-    gameState: "play"
+    gameState: "menu"
   }
 };
 
@@ -71,6 +71,7 @@ const StyledApp = styled.div`
   overflow: hidden;
   .title {
     color: white;
+    height: 40px;
     text-transform: uppercase;
     position: relative;
     text-shadow: 0 0 2px black;

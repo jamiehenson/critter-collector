@@ -2,10 +2,9 @@ import React from "react"
 import styled from "styled-components"
 import { connect } from "react-redux"
 
-import { UIProps } from "./UI"
+import { UIProps, UIButton } from "./UI"
 import { addCritterToPlayer, advanceFromBattle, removeCritterFromWorld, updateActiveCritterFighter, increaseCritterLevel } from "./ducks/actions"
 import { typeModifiers } from "./utils/critters"
-import theme from "./utils/theme"
 
 type StyledBattleUIProps = {
   scaling: number
@@ -89,7 +88,7 @@ const BattleUI: React.FC<BattleUIProps> = ({ ui, player, advanceFromBattle, addC
           <p key={i}>{logItem}</p>
         ))}
       </FightScreen>
-      <button onClick={() => advanceFromBattle()}>Advance</button>
+      <UIButton onClick={() => advanceFromBattle()}>Advance</UIButton>
     </StyledBattleUI>
   )
 }
@@ -154,22 +153,6 @@ const StyledBattleUI = styled.div<StyledBattleUIProps>`
   }
   h2 {
     margin: 0;
-  }
-  button {
-    -webkit-appearance: none;
-    padding: 0.5rem 1.5rem;
-    background: black;
-    border: 0;
-    margin: 0.5rem;
-    color: white;
-    font-size: 1rem;
-    border-radius: 5px;
-    text-transform: uppercase;
-    font-family: 'Press Start 2P', sans-serif;
-    cursor: pointer;
-    &:hover {
-      background: ${theme.colours.grey};
-    }
   }
 `
 

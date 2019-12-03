@@ -1,35 +1,54 @@
 import React from "react"
-import styled from "styled-components"
+import styled, { keyframes } from "styled-components"
 import { connect } from "react-redux"
+import { Wave } from "react-animated-text"
 
 import BattleUI from "./BattleUI"
 import { PlayerType, UIType } from "./utils/types"
+import theme from "./utils/theme"
+import { startGame } from "./ducks/actions"
 
 export type UIProps = {
   player: PlayerType,
   ui: UIType
 }
 
+interface MenuUIProps extends UIProps {
+  startGame: Function
+}
+
 const UI: React.FC<UIProps> = ({ player, ui }) => {
   return (
     <>
-      {ui.gameState === "menu" && <MenuUI>IT STARTS</MenuUI>}
-      {ui.gameState === "end" && <EndUI>IT'S OVER MATE</EndUI>}
+      {ui.gameState === "menu" && <ConnectedMenuUI />}
+      {ui.gameState === "end" && <EndUI />}
       {player.battle.active && <BattleUI player={player} ui={ui} />}
       <FooterUI player={player} ui={ui} />
     </>
   )
 }
 
-const MenuUI: React.FC = () => {
+const MenuUI: React.FC<MenuUIProps> = ({ startGame }) => {
   return (
-    <StyledMenuUI>It starts</StyledMenuUI>
+    <StyledMenuUI>
+      <h1><Wave text="CRITTER COLLECTOR!" /></h1>
+      <div className="bigIconMenu">
+        <span role="img" aria-label="Critter Collector">🏆</span>
+        <span role="img" aria-label="Critter Collector">😻</span>
+        <span role="img" aria-label="Critter Collector">🏆</span>
+      </div>
+      <UIButton onClick={() => startGame()}>LET'S GO!</UIButton>
+    </StyledMenuUI>
   )
 }
 
 const EndUI: React.FC = () => {
   return (
-    <StyledEndUI>It ends</StyledEndUI>
+    <StyledMenuUI>
+      <h2>Game Over!</h2>
+      <p>Oh no! All your Critters have fainted. Watch out for the higher leveled Critters of dangerous types, and make sure to use the Clinic to heal injured/fainted Critters.</p>
+      <div className="bigIconEnd"><span role="img" aria-label="Game Over">😿</span></div>
+    </StyledMenuUI>
   )
 }
 
@@ -67,12 +86,87 @@ const FooterUI: React.FC<UIProps> = ({ player, ui }) => {
   )
 }
 
-const StyledMenuUI = styled.div`
-  position: relative;
+const letterHues = () => {
+  let css = ""
+  for (let i = 1; i <= 18; i++) {
+    css += `&:nth-child(${i}) { span { color: hsl(${(i / 18) * 360}, 100%, 50%) } }`
+  }
+  return css
+}
+
+const danceAnimation = keyframes`
+  0%, 50%, 100% { 
+    transform: rotate(0deg); 
+  }
+  25% { 
+    transform: rotate(30deg); 
+  }
+  75% { 
+    transform: rotate(-30deg); 
+  }
 `
 
-const StyledEndUI = styled.div`
+const StyledMenuUI = styled.div`
   position: relative;
+  height: calc(100% - 40px - 1.25rem);
+  margin: -1px;
+  padding: 2rem;
+  color: white;
+  background: rgba(0, 0, 0, 0.9);
+  line-height: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 10;
+  h1, h2 {
+    margin-top: 0;
+  }
+  h1 {
+    font-size: 3.5rem;
+    text-align: center;
+    pointer-events: none;
+    > div span {
+      ${letterHues()}
+      &:nth-child(8) {
+        display: block !important;
+        height: 1rem;
+      }
+    }
+  }
+  .bigIconMenu, .bigIconEnd {
+    font-size: 7rem;
+    width: 7rem;
+    margin: 0;
+    padding: 0;
+    margin-top: -3.5rem;
+  }
+  .bigIconMenu {
+    width: auto;
+    span {
+      margin: 0 0.5rem;
+      animation: ${danceAnimation} 3s infinite linear;
+      display: inline-block;
+    }
+  }
+`
+
+export const UIButton = styled.button`
+  -webkit-appearance: none;
+  padding: 0.5rem 1.5rem;
+  background: black;
+  border: 0;
+  margin: 0.5rem;
+  color: white;
+  font-size: 1rem;
+  border-radius: 5px;
+  text-transform: uppercase;
+  font-family: 'Press Start 2P', sans-serif;
+  cursor: pointer;
+  &:hover {
+    background: ${theme.colours.grey};
+  }
+  border: 2px solid white;
 `
 
 const StyledFooterUI = styled.div`
@@ -150,4 +244,6 @@ const ClinicNote = styled.div`
   border-radius: 5px;
 `
 
-export default connect((state) => ({ player: state.player, ui: state.ui }), null)(UI)
+const ConnectedMenuUI = connect(null, (dispatch) => ({ startGame: () => dispatch(startGame()) }))(MenuUI)
+
+export default connect((state) => ({ player: state.player, ui: state.ui }))(UI)
