@@ -120,6 +120,7 @@ const StyledMenuUI = styled.div`
   justify-content: center;
   flex-direction: column;
   z-index: 10;
+  text-align: center;
   h1, h2 {
     margin-top: 0;
   }
@@ -240,12 +241,13 @@ const ClinicNote = styled.div`
   width: calc(100% - 4vh);
   background: rgba(255,0,0,0.6);
   height: calc(100% - 4vh);
-  margin-bottom: calc(-20vh + 3vh);
+  margin-bottom: calc(-20vh + 5vh);
   z-index: 2;
   position: relative;
   padding: 2vh;
   display: flex;
   align-items: center;
+  font-size: 2vh;
   justify-content: center;
   border-radius: 5px;
   text-align: center;
