@@ -38,6 +38,7 @@ const MenuUI: React.FC<MenuUIProps> = ({ startGame }) => {
         <span role="img" aria-label="Critter Collector">🏆</span>
       </div>
       <UIButton onClick={() => startGame()}>LET'S GO!</UIButton>
+      <small>(use the arrow keys or WASD to move around)</small>
     </StyledMenuUI>
   )
 }
@@ -149,6 +150,10 @@ const StyledMenuUI = styled.div`
       animation: ${danceAnimation} 3s infinite linear;
       display: inline-block;
     }
+  }
+  small {
+    margin-top: 1.5rem;
+    font-size: 0.7rem;
   }
 `
 
