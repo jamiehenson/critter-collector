@@ -87,7 +87,8 @@ const gameReducer = (state, action) => {
           id: state.world.critterCounter,
           healthPoints: Math.floor(Math.random() * 100 + 50),
           combatPoints: Math.floor(Math.random() * 20 + 20),
-          level: Math.ceil(Math.random() * 3)
+          level: Math.ceil(Math.random() * 3),
+          activeFighter: newCritters.length === 0
         }
         const randomCritter = Object.assign({}, allCritters[Math.floor(Math.random() * allCritters.length)], newCritterState)
         newCritters.push(randomCritter)

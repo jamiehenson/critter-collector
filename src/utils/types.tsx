@@ -17,7 +17,8 @@ export interface CritterType extends BeingType {
   type: string,
   healthPoints: number,
   combatPoints: number,
-  level: number
+  level: number,
+  activeFighter: boolean
 }
 
 export interface TrainerType extends BeingType {
