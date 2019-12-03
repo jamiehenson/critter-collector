@@ -10,17 +10,13 @@ export type UIProps = {
   ui: UIType
 }
 
-type FooterUIProps = {
-  player: PlayerType,
-}
-
 const UI: React.FC<UIProps> = ({ player, ui }) => {
   return (
     <>
       {ui.gameState === "menu" && <MenuUI>IT STARTS</MenuUI>}
       {ui.gameState === "end" && <EndUI>IT'S OVER MATE</EndUI>}
       {player.battle.active && <BattleUI player={player} ui={ui} />}
-      <FooterUI player={player} />
+      <FooterUI player={player} ui={ui} />
     </>
   )
 }
@@ -37,11 +33,12 @@ const EndUI: React.FC = () => {
   )
 }
 
-const FooterUI: React.FC<FooterUIProps> = ({ player }) => {
+const FooterUI: React.FC<UIProps> = ({ player, ui }) => {
   const { critters, nearbyCritters } = player
   return (
     <StyledFooterUI>
       <div>
+        {ui.clinic && <ClinicNote>All Critters fully healed!</ClinicNote>}
         <h3>Your Critters ({critters.length})</h3>
         <CritterList>
           {critters.map((critter) => (
@@ -137,6 +134,20 @@ const CritterList = styled.div`
     line-height: 1rem;
     margin-left: 0.5rem;
   }
+`
+
+const ClinicNote = styled.div`
+  width: calc(100% - 2rem);
+  background: rgba(255,0,0,0.6);
+  height: calc(100% - 2rem);
+  margin-bottom: calc(-150px + 1.5rem);
+  z-index: 2;
+  position: relative;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
 `
 
 export default connect((state) => ({ player: state.player, ui: state.ui }), null)(UI)

@@ -5,7 +5,7 @@ import { connect } from "react-redux"
 import CellWrapper from "./CellWrapper"
 import Cell from "./Cell"
 import UI from "./UI"
-import { addCritterToWorld, addCritterToPlayer } from "./ducks/actions"
+import { addCritterToWorld, addCritterToPlayer, addClinicToWorld } from "./ducks/actions"
 import water from "./img/water.png"
 import { WorldType, PlayerType } from "./utils/types"
 import theme from "./utils/theme"
@@ -15,7 +15,8 @@ type WorldProps = {
   player: PlayerType,
   scalingFactor: number,
   addCritterToWorld: Function,
-  addCritterToPlayer: Function
+  addCritterToPlayer: Function,
+  addClinicToWorld: Function
 }
 
 type StyledWorldProps = {
@@ -23,7 +24,7 @@ type StyledWorldProps = {
   cellSize: number
 }
 
-const World: React.FC<WorldProps> = ({ world, player, scalingFactor, addCritterToWorld, addCritterToPlayer }) => {
+const World: React.FC<WorldProps> = ({ world, player, scalingFactor, addCritterToWorld, addCritterToPlayer, addClinicToWorld }) => {
   const cells: any[] = []
   const { worldSize, critterMaxPopulation, cellSize, critters } = world
   for (let i = 0; i < critterMaxPopulation; i++) {
@@ -33,6 +34,10 @@ const World: React.FC<WorldProps> = ({ world, player, scalingFactor, addCritterT
 
   if (player.critters.length < 2) {
     addCritterToPlayer()
+  }
+
+  if (!world.clinic) {
+    addClinicToWorld()
   }
 
   for (let i = 0; i < worldSize; i++) {
@@ -69,6 +74,7 @@ export default connect(
   state => ({ world: state.world, player: state.player, scalingFactor: state.ui.scalingFactor }),
   (dispatch) => ({
     addCritterToWorld: () => dispatch(addCritterToWorld()),
-    addCritterToPlayer: () => dispatch(addCritterToPlayer())
+    addCritterToPlayer: () => dispatch(addCritterToPlayer()),
+    addClinicToWorld: () => dispatch(addClinicToWorld())
   })
 )(World)

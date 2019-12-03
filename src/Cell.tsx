@@ -13,10 +13,11 @@ type StyledCellProps = {
 }
 
 const Cell: React.FC<CellType> = ({ x, y, player, world, ui }) => {
-  const { cellSize, worldSize, sandEdgeCells, critters } = world
+  const { cellSize, worldSize, sandEdgeCells, critters, clinic } = world
   const playerCell = player.position.x === x && player.position.y === y
   const critterMatch = critters.find(critter => critter.position.x === x && critter.position.y === y)
   const sandEdgeCell = x < 2 || y < 2 || x >= worldSize - sandEdgeCells || y >= worldSize - sandEdgeCells
+  const clinicCell = clinic.x === x && clinic.y === y
 
   const positionStyling = {
     left: `${x * cellSize * ui.scalingFactor}vh`,
@@ -37,6 +38,8 @@ const Cell: React.FC<CellType> = ({ x, y, player, world, ui }) => {
     }
   } else if (critterMatch) {
     cellLabel = critterMatch.icon
+  } else if (clinicCell) {
+    cellLabel = "🏥"
   }
 
   return (

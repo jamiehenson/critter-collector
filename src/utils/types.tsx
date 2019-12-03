@@ -18,7 +18,8 @@ export interface CritterType extends BeingType {
   healthPoints: number,
   combatPoints: number,
   level: number,
-  activeFighter: boolean
+  activeFighter: boolean,
+  fullHealthPoints: number
 }
 
 export interface TrainerType extends BeingType {
@@ -32,7 +33,8 @@ export type WorldType = {
   sandEdgeCells: number,
   critterMaxPopulation: number,
   critters: CritterType[],
-  critterCounter: number
+  critterCounter: number,
+  clinic: { x: number, y: number }
 }
 
 export type CellType = {
@@ -45,5 +47,6 @@ export type CellType = {
 
 export type UIType = {
   scalingFactor: number,
-  gameState: string
+  gameState: string,
+  clinic: boolean
 }

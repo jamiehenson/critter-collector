@@ -5,16 +5,26 @@ const gameReducer = (state, action) => {
   switch (action.type) {
     case ACTIONS.Actions.UPDATE_PLAYER_POSITION: {
       const key = action.payload;
-      let { position, direction, battle } = state.player
-      const { worldSize, critters } = state.world
+      let { position, direction, battle, critters: playerCritters } = state.player
+      const { worldSize, critters, clinic } = state.world
 
       if (state.ui.gameState !== "play" || battle.active) { return state; }
 
+      // Move player if there are no adjacent obstructions
+      const checkObstruction = (axis, polarity) => {
+        const perpendicularAxis = axis === "x" ? "y" : "x"
+        const critterPresence = critters.find((critter) => (
+          critter.position[perpendicularAxis] === position[perpendicularAxis] && critter.position[axis] === position[axis] - polarity
+        ))
+        const clinicPresence = position[perpendicularAxis] === clinic[perpendicularAxis] && position[axis] === clinic[axis] - polarity
+        return critterPresence || clinicPresence
+      }
+
       const obstructions = {
-        up: critters.find((critter) => critter.position.x === position.x && critter.position.y === position.y - 1),
-        down: critters.find((critter) => critter.position.x === position.x && critter.position.y === position.y + 1),
-        left: critters.find((critter) => critter.position.y === position.y && critter.position.x === position.x - 1),
-        right: critters.find((critter) => critter.position.y === position.y && critter.position.x === position.x + 1)
+        up: checkObstruction("y", -1),
+        down: checkObstruction("y", 1),
+        left: checkObstruction("x", -1),
+        right: checkObstruction("x", 1)
       }
 
       if (["w", "ArrowUp", "87", "38"].includes(key)) {
@@ -39,6 +49,7 @@ const gameReducer = (state, action) => {
         direction = "right";
       }
 
+      // Detection of critter proximity
       const nearbyCritters = critters.filter((critter) => {
         const xDiff = Math.abs((position as any).x - critter.position.x)
         const yDiff = Math.abs((position as any).y - critter.position.y)
@@ -53,8 +64,15 @@ const gameReducer = (state, action) => {
         return false
       })
 
+      // Clinic health recharging
+      const xDiffToClinic = Math.abs((position as any).x - clinic.x)
+      const yDiffToClinic = Math.abs((position as any).y - clinic.y)
+      const nearToClinic = xDiffToClinic <= 1 && yDiffToClinic <= 1
+      const newCritters = nearToClinic ? [...playerCritters].map((critter) => ({ ...critter, healthPoints: critter.fullHealthPoints })) : playerCritters
+
       const newState = {
-        player: { ...state.player, position, direction, nearbyCritters, battle }
+        player: { ...state.player, position, direction, nearbyCritters, battle, critters: newCritters },
+        ui: { ...state.ui, clinic: nearToClinic }
       }
 
       return Object.assign({}, state, newState);
@@ -63,10 +81,12 @@ const gameReducer = (state, action) => {
       const xPos = Math.floor(Math.random() * state.world.worldSize)
       const yPos = Math.floor(Math.random() * state.world.worldSize)
       const newCritters = state.world.critters
+      const newHealthPoints = Math.floor(Math.random() * 100 + 50)
       const newCritterState = {
         id: state.world.critterCounter,
         position: { x: xPos, y: yPos },
-        healthPoints: Math.floor(Math.random() * 100 + 50),
+        healthPoints: newHealthPoints,
+        fullHealthPoints: newHealthPoints,
         combatPoints: Math.floor(Math.random() * 20 + 20),
         level: Math.ceil(Math.random() * 3)
       }
@@ -85,9 +105,11 @@ const gameReducer = (state, action) => {
         delete critterMatch.position
         newCritters.push(critterMatch)
       } else {
+        const newHealthPoints = Math.floor(Math.random() * 100 + 50)
         const newCritterState = {
           id: state.world.critterCounter,
-          healthPoints: Math.floor(Math.random() * 100 + 50),
+          healthPoints: newHealthPoints,
+          fullHealthPoints: newHealthPoints,
           combatPoints: Math.floor(Math.random() * 20 + 20),
           level: Math.ceil(Math.random() * 3),
           activeFighter: newCritters.length === 0
@@ -134,6 +156,21 @@ const gameReducer = (state, action) => {
         return critter
       })
       return Object.assign({}, state, { player: { ...state.player, critters: newCritters } })
+    }
+    case ACTIONS.Actions.ADD_CLINIC_TO_WORLD: {
+      let unobstructed = true
+      while (unobstructed) {
+        const candidateX = Math.floor(Math.random() * state.world.worldSize)
+        const candidateY = Math.floor(Math.random() * state.world.worldSize)
+        const clinicState = { x: candidateX, y: candidateY }
+        const critterPositionMatch = state.world.critters.find((critter) => critter.position === clinicState)
+        const playerPositionMatch = state.player.position === clinicState
+        if (!critterPositionMatch && !playerPositionMatch) {
+          unobstructed = false
+          return Object.assign({}, state, { world: { ...state.world, clinic: clinicState } })
+        }
+      }
+      return state
     }
     default:
       return state;

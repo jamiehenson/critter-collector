@@ -6,7 +6,8 @@ const Actions = {
   REMOVE_CRITTER_FROM_WORLD: "REMOVE_CRITTER_FROM_WORLD",
   UPDATE_ACTIVE_CRITTER_FIGHTER: "UPDATE_ACTIVE_CRITTER_FIGHTER",
   START_GAME: "START_GAME",
-  INCREASE_CRITTER_LEVEL: "INCREASE_CRITTER_LEVEL"
+  INCREASE_CRITTER_LEVEL: "INCREASE_CRITTER_LEVEL",
+  ADD_CLINIC_TO_WORLD: "ADD_CLINIC_TO_WORLD"
 };
 
 export const updatePlayerPosition = key => ({
@@ -46,6 +47,10 @@ export const increaseCritterLevel = (critter) => ({
   payload: critter
 })
 
+export const addClinicToWorld = () => ({
+  type: Actions.ADD_CLINIC_TO_WORLD
+})
+
 export default {
   updatePlayerPosition,
   addCritterToWorld,
@@ -54,5 +59,6 @@ export default {
   updateActiveCritterFighter,
   startGame,
   increaseCritterLevel,
+  addClinicToWorld,
   Actions
 };
