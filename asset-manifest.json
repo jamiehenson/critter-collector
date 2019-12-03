@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/critter-collector/static/css/main.25723443.chunk.css",
-    "main.js": "/critter-collector/static/js/main.2f45d222.chunk.js",
-    "main.js.map": "/critter-collector/static/js/main.2f45d222.chunk.js.map",
+    "main.js": "/critter-collector/static/js/main.b900ccb2.chunk.js",
+    "main.js.map": "/critter-collector/static/js/main.b900ccb2.chunk.js.map",
     "runtime-main.js": "/critter-collector/static/js/runtime-main.df8aba61.js",
     "runtime-main.js.map": "/critter-collector/static/js/runtime-main.df8aba61.js.map",
-    "static/js/2.59e6b564.chunk.js": "/critter-collector/static/js/2.59e6b564.chunk.js",
-    "static/js/2.59e6b564.chunk.js.map": "/critter-collector/static/js/2.59e6b564.chunk.js.map",
+    "static/js/2.a6465dbe.chunk.js": "/critter-collector/static/js/2.a6465dbe.chunk.js",
+    "static/js/2.a6465dbe.chunk.js.map": "/critter-collector/static/js/2.a6465dbe.chunk.js.map",
     "index.html": "/critter-collector/index.html",
-    "precache-manifest.015d5acb4bb39ca043945a50736d936f.js": "/critter-collector/precache-manifest.015d5acb4bb39ca043945a50736d936f.js",
+    "precache-manifest.8039b91e0ab58d61d4a769f5523d0ff4.js": "/critter-collector/precache-manifest.8039b91e0ab58d61d4a769f5523d0ff4.js",
     "service-worker.js": "/critter-collector/service-worker.js",
     "static/css/main.25723443.chunk.css.map": "/critter-collector/static/css/main.25723443.chunk.css.map",
     "static/media/grass.png": "/critter-collector/static/media/grass.8eb8a5fb.png",
@@ -17,8 +17,8 @@
   },
   "entrypoints": [
     "static/js/runtime-main.df8aba61.js",
-    "static/js/2.59e6b564.chunk.js",
+    "static/js/2.a6465dbe.chunk.js",
     "static/css/main.25723443.chunk.css",
-    "static/js/main.2f45d222.chunk.js"
+    "static/js/main.b900ccb2.chunk.js"
   ]
 }
