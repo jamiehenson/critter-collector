@@ -8,6 +8,7 @@ import UI from "./UI"
 import { addCritterToWorld, addCritterToPlayer } from "./ducks/actions"
 import water from "./img/water.png"
 import { WorldType, PlayerType } from "./utils/types"
+import theme from "./utils/theme"
 
 type WorldProps = {
   world: WorldType,
@@ -57,7 +58,7 @@ const StyledWorld = styled.div<StyledWorldProps>`
   overflow: hidden;
   margin: 5vh;
   border-radius: 5px;
-  border: 3px solid #333333;
+  border: 10px solid ${theme.colours.grey};
   padding: 1px;
   background-image: url(${water});
   background-repeat: repeat;

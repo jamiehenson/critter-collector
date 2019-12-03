@@ -5,6 +5,7 @@ import { connect } from "react-redux"
 import { UIProps } from "./UI"
 import { addCritterToPlayer, advanceFromBattle, removeCritterFromWorld } from "./ducks/actions"
 import { typeModifiers } from "./utils/critters"
+import theme from "./utils/theme"
 
 type StyledBattleUIProps = {
   scaling: number
@@ -125,6 +126,7 @@ const StyledBattleUI = styled.div<StyledBattleUIProps>`
   align-items: center;
   flex-direction: column;
   font-size: 2rem;
+  text-shadow: 0 0 2px black;
   p {
     margin: 0;
   }
@@ -143,6 +145,9 @@ const StyledBattleUI = styled.div<StyledBattleUIProps>`
     text-transform: uppercase;
     font-family: 'Press Start 2P', sans-serif;
     cursor: pointer;
+    &:hover {
+      background: ${theme.colours.grey};
+    }
   }
 `
 
