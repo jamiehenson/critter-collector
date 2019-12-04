@@ -3,7 +3,7 @@ export type PlayerType = {
   direction: string,
   critters: CritterType[],
   nearbyCritters: CritterType[],
-  battle: { active: boolean, fighter: CritterType, opponent: CritterType, log: string[] }
+  battle: { active: boolean, fighter: CritterType, opponent: CritterType, log: string[], paused: boolean }
 }
 
 type BeingType = {

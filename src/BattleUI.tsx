@@ -3,7 +3,7 @@ import styled from "styled-components"
 import { connect } from "react-redux"
 
 import { UIProps, UIButton, titleise } from "./UI"
-import { addCritterToPlayer, advanceFromBattle, removeCritterFromWorld, updateActiveCritterFighter, increaseCritterLevel } from "./ducks/actions"
+import { addCritterToPlayer, advanceFromBattle, initiateBattle, fleeBattle } from "./ducks/actions"
 
 type StyledBattleUIProps = {
   scaling: number
@@ -12,17 +12,16 @@ type StyledBattleUIProps = {
 interface BattleUIProps extends UIProps {
   addCritterToPlayer: Function,
   advanceFromBattle: Function,
-  removeCritterFromWorld: Function,
-  updateActiveCritterFighter: Function,
-  increaseCritterLevel: Function
+  initiateBattle: Function,
+  fleeBattle: Function
 }
 
-const BattleUI: React.FC<BattleUIProps> = ({ ui, player, advanceFromBattle }) => {
-  const { fighter, opponent, log } = player.battle
+const BattleUI: React.FC<BattleUIProps> = ({ ui, player, advanceFromBattle, initiateBattle, fleeBattle }) => {
+  const { fighter, opponent, log, paused } = player.battle
 
   return (
     <StyledBattleUI scaling={ui.scalingFactor}>
-      <h2>FIGHT!</h2>
+      <h2>BATTLE!</h2>
       <FightIntro>
         <div>
           <CritterIcon>
@@ -35,7 +34,7 @@ const BattleUI: React.FC<BattleUIProps> = ({ ui, player, advanceFromBattle }) =>
         </div>
         <div>
           VS
-        </div>
+      </div>
         <div>
           <CritterIcon>
             <span className="icon">{opponent.icon}</span>
@@ -46,22 +45,29 @@ const BattleUI: React.FC<BattleUIProps> = ({ ui, player, advanceFromBattle }) =>
           <small>(HP: {opponent.healthPoints * opponent.level}, CP: {opponent.combatPoints * opponent.level})</small>
         </div>
       </FightIntro>
-      <FightScreen>
-        {log.map((logItem, i) => (
-          <p key={i}>{logItem}</p>
-        ))}
-      </FightScreen>
-      <UIButton onClick={() => advanceFromBattle()}>Advance</UIButton>
+      {paused ?
+        <Choice>
+          <UIButton onClick={() => initiateBattle()}>FIGHT</UIButton>
+          <p>OR</p>
+          <UIButton onClick={() => fleeBattle()}>FLEE</UIButton>
+        </Choice>
+        : <>
+          <FightScreen>
+            {log.map((logItem, i) => (
+              <p key={i}>{logItem}</p>
+            ))}
+          </FightScreen>
+          <UIButton onClick={() => advanceFromBattle()}>Advance</UIButton>
+        </>}
     </StyledBattleUI>
   )
 }
 
 const mapDispatchToProps = (dispatch) => ({
   addCritterToPlayer: (critter) => dispatch(addCritterToPlayer(critter)),
-  removeCritterFromWorld: (critter) => dispatch(removeCritterFromWorld(critter)),
   advanceFromBattle: () => dispatch(advanceFromBattle()),
-  updateActiveCritterFighter: (critter) => dispatch(updateActiveCritterFighter(critter)),
-  increaseCritterLevel: (critter) => dispatch(increaseCritterLevel(critter))
+  initiateBattle: () => dispatch(initiateBattle()),
+  fleeBattle: () => dispatch(fleeBattle())
 })
 
 export default connect(null, mapDispatchToProps)(BattleUI)
@@ -97,6 +103,18 @@ const StyledBattleUI = styled.div<StyledBattleUIProps>`
   }
   h2 {
     margin: 0 0 2vh 0;
+  }
+`
+
+const Choice = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-top: 2vh
+  p {
+    margin: 0 2vh;
   }
 `
 

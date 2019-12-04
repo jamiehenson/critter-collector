@@ -56,10 +56,7 @@ const gameReducer = (state, action) => {
         const xDiff = Math.abs((position as any).x - critter.position.x)
         const yDiff = Math.abs((position as any).y - critter.position.y)
         if (xDiff <= 1 && yDiff <= 1) {
-          battle.active = true
-          battle.opponent = critter
-          battle.log = []
-          battle.fighter = playerCritters.find((critter) => critter.activeFighter)
+          battle = { ...battle, active: true, opponent: critter, log: [], fighter: playerCritters.find((critter) => critter.activeFighter), paused: true }
           return true
         } else if (xDiff <= 2 && yDiff <= 2) {
           battle.active = false
@@ -128,9 +125,9 @@ const gameReducer = (state, action) => {
     }
     case ACTIONS.Actions.ADVANCE_FROM_BATTLE: {
       if (state.player.critters.find((critter) => critter.healthPoints > 0)) {
-        return Object.assign({}, state, { player: { ...state.player, battle: { active: false, fighter: null, opponent: null } } })
+        return Object.assign({}, state, { player: { ...state.player, battle: { active: false } } })
       } else {
-        return Object.assign({}, state, { player: { ...state.player, battle: { active: false, fighter: null, opponent: null } }, ui: { ...state.ui, gameState: "end" } })
+        return Object.assign({}, state, { player: { ...state.player, battle: { active: false } }, ui: { ...state.ui, gameState: "end" } })
       }
     }
     case ACTIONS.Actions.REMOVE_CRITTER_FROM_WORLD: {
@@ -181,6 +178,12 @@ const gameReducer = (state, action) => {
     case ACTIONS.Actions.UPDATE_BATTLE_STATUS: {
       const newBattle = action.payload
       return Object.assign({}, state, { player: { ...state.player, battle: newBattle } })
+    }
+    case ACTIONS.Actions.INITIATE_BATTLE: {
+      return Object.assign({}, state, { player: { ...state.player, battle: { ...state.player.battle, paused: false } } })
+    }
+    case ACTIONS.Actions.FLEE_BATTLE: {
+      return Object.assign({}, state, { player: { ...state.player, battle: { active: false } } })
     }
     default:
       return state;

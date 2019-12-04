@@ -8,7 +8,9 @@ const Actions = {
   START_GAME: "START_GAME",
   INCREASE_CRITTER_LEVEL: "INCREASE_CRITTER_LEVEL",
   ADD_CLINIC_TO_WORLD: "ADD_CLINIC_TO_WORLD",
-  UPDATE_BATTLE_STATUS: "UPDATE_BATTLE_STATUS"
+  UPDATE_BATTLE_STATUS: "UPDATE_BATTLE_STATUS",
+  INITIATE_BATTLE: "INITIATE_BATTLE",
+  FLEE_BATTLE: "FLEE_BATTLE"
 };
 
 export const updatePlayerPosition = (key?) => ({
@@ -57,6 +59,14 @@ export const updateBattleStatus = (battle) => ({
   payload: battle
 })
 
+export const initiateBattle = () => ({
+  type: Actions.INITIATE_BATTLE
+})
+
+export const fleeBattle = () => ({
+  type: Actions.FLEE_BATTLE
+})
+
 export default {
   updatePlayerPosition,
   addCritterToWorld,
@@ -66,5 +76,8 @@ export default {
   startGame,
   increaseCritterLevel,
   addClinicToWorld,
+  updateBattleStatus,
+  initiateBattle,
+  fleeBattle,
   Actions
 };

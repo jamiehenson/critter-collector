@@ -55,7 +55,7 @@ const World: React.FC<WorldProps> = ({ world, player, scalingFactor, addCritterT
     <StyledWorld scalingFactor={scalingFactor} cellSize={cellSize}>
       <CellWrapper cells={cells}></CellWrapper>
       <UI></UI>
-      {player.battle.active && <BattleManager></BattleManager>}
+      {player.battle.active && !player.battle.paused && <BattleManager></BattleManager>}
     </StyledWorld>
   )
 }
