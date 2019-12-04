@@ -82,9 +82,9 @@ const StyledApp = styled.div`
     background: ${theme.colours.grey};
     width: calc(${initialState.ui.scalingFactor * 100}vh + 20px);
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: center;
-    padding: 1vh 0 2vh;
+    padding: 1.5vh 0 1.5vh;
     border-radius: 5px;
     > span:last-child {
       margin-left: 2vh;
