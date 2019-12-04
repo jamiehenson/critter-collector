@@ -88,6 +88,10 @@ const FooterUI: React.FC<UIProps> = ({ player, ui }) => {
   )
 }
 
+export const titleise = (input) => {
+  return input.charAt(0).toUpperCase() + input.slice(1).toLowerCase()
+}
+
 const letterHues = () => {
   let css = ""
   for (let i = 1; i <= 18; i++) {
@@ -135,6 +139,12 @@ const StyledMenuUI = styled.div`
         height: 2vh;
       }
     }
+  }
+  h2 {
+    font-size: 3vh;
+  }
+  p {
+    font-size: 2vh;
   }
   .bigIconMenu, .bigIconEnd {
     font-size: 15vh;
@@ -230,7 +240,7 @@ const CritterList = styled.div`
     right: 0;
     width: 1.5vh;
     height: 1.5vh;
-    font-size: 1.5vh;
+    font-size: 1vh;
   }
   .stats {
     font-size: 1.2vh;

@@ -25,7 +25,7 @@ const initialState = {
     direction: "down",
     critters: [],
     nearbyCritters: [],
-    battle: { active: false, combatant: null }
+    battle: { active: false }
   },
   ui: {
     scalingFactor: 0.8,

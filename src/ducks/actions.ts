@@ -7,7 +7,8 @@ const Actions = {
   UPDATE_ACTIVE_CRITTER_FIGHTER: "UPDATE_ACTIVE_CRITTER_FIGHTER",
   START_GAME: "START_GAME",
   INCREASE_CRITTER_LEVEL: "INCREASE_CRITTER_LEVEL",
-  ADD_CLINIC_TO_WORLD: "ADD_CLINIC_TO_WORLD"
+  ADD_CLINIC_TO_WORLD: "ADD_CLINIC_TO_WORLD",
+  UPDATE_BATTLE_STATUS: "UPDATE_BATTLE_STATUS"
 };
 
 export const updatePlayerPosition = (key?) => ({
@@ -49,6 +50,11 @@ export const increaseCritterLevel = (critter) => ({
 
 export const addClinicToWorld = () => ({
   type: Actions.ADD_CLINIC_TO_WORLD
+})
+
+export const updateBattleStatus = (battle) => ({
+  type: Actions.UPDATE_BATTLE_STATUS,
+  payload: battle
 })
 
 export default {

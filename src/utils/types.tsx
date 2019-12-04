@@ -3,7 +3,7 @@ export type PlayerType = {
   direction: string,
   critters: CritterType[],
   nearbyCritters: CritterType[],
-  battle: { active: boolean, combatant: CritterType }
+  battle: { active: boolean, fighter: CritterType, opponent: CritterType, log: string[] }
 }
 
 type BeingType = {
@@ -49,4 +49,13 @@ export type UIType = {
   scalingFactor: number,
   gameState: string,
   clinic: boolean
+}
+
+export type BattleType = {
+  player: PlayerType,
+  updateActiveCritterFighter: Function,
+  addCritterToPlayer: Function,
+  removeCritterFromWorld: Function,
+  increaseCritterLevel: Function,
+  updateBattleStatus: Function
 }

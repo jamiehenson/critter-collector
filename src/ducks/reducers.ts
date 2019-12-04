@@ -57,7 +57,9 @@ const gameReducer = (state, action) => {
         const yDiff = Math.abs((position as any).y - critter.position.y)
         if (xDiff <= 1 && yDiff <= 1) {
           battle.active = true
-          battle.combatant = critter
+          battle.opponent = critter
+          battle.log = []
+          battle.fighter = playerCritters.find((critter) => critter.activeFighter)
           return true
         } else if (xDiff <= 2 && yDiff <= 2) {
           battle.active = false
@@ -126,9 +128,9 @@ const gameReducer = (state, action) => {
     }
     case ACTIONS.Actions.ADVANCE_FROM_BATTLE: {
       if (state.player.critters.find((critter) => critter.healthPoints > 0)) {
-        return Object.assign({}, state, { player: { ...state.player, battle: { active: false, combatant: null } } })
+        return Object.assign({}, state, { player: { ...state.player, battle: { active: false, fighter: null, opponent: null } } })
       } else {
-        return Object.assign({}, state, { player: { ...state.player, battle: { active: false, combatant: null } }, ui: { ...state.ui, gameState: "end" } })
+        return Object.assign({}, state, { player: { ...state.player, battle: { active: false, fighter: null, opponent: null } }, ui: { ...state.ui, gameState: "end" } })
       }
     }
     case ACTIONS.Actions.REMOVE_CRITTER_FROM_WORLD: {
@@ -175,6 +177,10 @@ const gameReducer = (state, action) => {
         }
       }
       return state
+    }
+    case ACTIONS.Actions.UPDATE_BATTLE_STATUS: {
+      const newBattle = action.payload
+      return Object.assign({}, state, { player: { ...state.player, battle: newBattle } })
     }
     default:
       return state;

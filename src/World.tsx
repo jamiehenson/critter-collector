@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { connect } from "react-redux"
 
 import CellWrapper from "./CellWrapper"
+import BattleManager from './BattleManager'
 import Cell from "./Cell"
 import UI from "./UI"
 import { addCritterToWorld, addCritterToPlayer, addClinicToWorld, updatePlayerPosition } from "./ducks/actions"
@@ -38,7 +39,7 @@ const World: React.FC<WorldProps> = ({ world, player, scalingFactor, addCritterT
     updatePlayerPosition();
   }
 
-  if (player.critters.length < 1) {
+  if (player.critters.length < 2) {
     addCritterToPlayer()
   }
 
@@ -54,6 +55,7 @@ const World: React.FC<WorldProps> = ({ world, player, scalingFactor, addCritterT
     <StyledWorld scalingFactor={scalingFactor} cellSize={cellSize}>
       <CellWrapper cells={cells}></CellWrapper>
       <UI></UI>
+      {player.battle.active && <BattleManager></BattleManager>}
     </StyledWorld>
   )
 }
