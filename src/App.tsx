@@ -5,6 +5,7 @@ import { Provider as ReduxProvider } from "react-redux";
 import configureStore from "./ducks/store";
 import World from "./World"
 import theme from "./utils/theme"
+import stripe from "./img/stripe.png"
 
 const cellRowSize: number = 9
 const worldSize: number = 27
@@ -63,6 +64,8 @@ const StyledApp = styled.div`
   width: 100%;
   height: 100vh;
   background-color: ${theme.colours.grey};
+  background-image: url(${stripe});
+  background-repeat: repeat;
   display: flex;
   justify-content: center;
   position: relative;

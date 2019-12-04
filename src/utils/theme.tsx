@@ -1,7 +1,7 @@
 const theme = {
   colours: {
     grey: "#333333",
-    purple: "#7851a9"
+    purple: "#6f2da8"
   }
 }
 
