@@ -34,7 +34,6 @@ const computeBattle = (player, methods) => {
   }
 
   if (battle.log.length === 0) {
-    console.log(newBattle.log, battle.log)
     if (fighter.healthPoints === 0) {
       newBattle.log.push(`${titleise(opponent.name)} wins! Your ${titleise(fighter.name)} faints.`)
       const aliveCritters = [...player.critters.filter((critter) => critter.healthPoints > 0)]
