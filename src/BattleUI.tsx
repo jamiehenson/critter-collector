@@ -29,8 +29,9 @@ const BattleUI: React.FC<BattleUIProps> = ({ ui, player, advanceFromBattle, addC
       tempBattle.log.push(`${them.titleisedName} wins! Your ${you.titleisedName} faints.`)
       const aliveCritters = [...player.critters.filter((critter) => critter.healthPoints > 0)]
       if (aliveCritters.length > 0) {
-        tempBattle.log.push(`Go ${aliveCritters[0].name}!`)
-        updateActiveCritterFighter(aliveCritters[0])
+        const randomAliveCritter = aliveCritters[Math.floor(Math.random() * aliveCritters.length)]
+        tempBattle.log.push(`Go ${randomAliveCritter.name}!`)
+        updateActiveCritterFighter(randomAliveCritter)
       } else {
         tempBattle.log.push("All critters have fainted!")
       }
@@ -42,7 +43,7 @@ const BattleUI: React.FC<BattleUIProps> = ({ ui, player, advanceFromBattle, addC
       let levelText = ""
       if (Math.random() >= 0.5) {
         increaseCritterLevel(you.critter)
-        levelText = `They level up to Lv. ${you.critter.level}.`
+        levelText = ` They level up to Lv. ${you.critter.level}.`
       }
       tempBattle.log.push(`Your ${you.titleisedName} wins! ${them.titleisedName} caught.` + levelText)
     }
