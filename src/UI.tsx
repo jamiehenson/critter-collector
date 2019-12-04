@@ -211,6 +211,8 @@ const StyledFooterUI = styled.div`
 
 const CritterList = styled.div`
   margin-top: 1vh;
+  max-height: 13vh;
+  overflow-y: scroll;
   > div { 
     display: inline-flex;
     align-items: center;
