@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "bbb6546b63f4505dff0b94088c82b096",
+    "revision": "c3b2aa5aebbafc941ba951bd92e3944a",
     "url": "/critter-collector/index.html"
   },
   {
-    "revision": "cfcc70754ec2471f86bf",
+    "revision": "8232440e7d2ee751935c",
     "url": "/critter-collector/static/css/main.25723443.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/critter-collector/static/js/2.82381bae.chunk.js"
   },
   {
-    "revision": "cfcc70754ec2471f86bf",
-    "url": "/critter-collector/static/js/main.9d9b0b2c.chunk.js"
+    "revision": "8232440e7d2ee751935c",
+    "url": "/critter-collector/static/js/main.ca5f61cb.chunk.js"
   },
   {
     "revision": "09a01cdc54f6885c9cbe",
