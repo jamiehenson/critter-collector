@@ -23,7 +23,7 @@ const BattleUI: React.FC<BattleUIProps> = ({ ui, player, advanceFromBattle, init
     <StyledBattleUI scaling={ui.scalingFactor}>
       <h2>BATTLE!</h2>
       <FightIntro>
-        <div>
+        <div className="fightCritter" style={{ backgroundColor: introCellColour(initialFighter.type) }}>
           <CritterIcon>
             <span className="icon">{initialFighter.icon}</span>
             <span className="type">{getTypeIcon(initialFighter.type)}</span>
@@ -37,8 +37,8 @@ const BattleUI: React.FC<BattleUIProps> = ({ ui, player, advanceFromBattle, init
         </div>
         <div>
           VS
-      </div>
-        <div>
+        </div>
+        <div className="fightCritter" style={{ backgroundColor: introCellColour(opponent.type) }}>
           <CritterIcon>
             <span className="icon">{opponent.icon}</span>
             <span className="type">{getTypeIcon(opponent.type)}</span>
@@ -87,6 +87,16 @@ const getTypeIcon = (type) => {
   }
 }
 
+const introCellColour = (type) => {
+  if (type === "fire") {
+    return "rgba(255, 0, 0, 0.3)"
+  } else if (type === "water") {
+    return "rgba(0, 0, 255, 0.3)"
+  } else if (type === "grass") {
+    return "rgba(0, 255, 0, 0.3)"
+  }
+}
+
 const StyledBattleUI = styled.div<StyledBattleUIProps>`
   width: calc(100% - 8vh);
   display: flex;
@@ -127,15 +137,21 @@ const FightIntro = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 20vh;
+  width: 100%;
   > div {
     text-align: center;
     padding: 2vh;
+    flex: none;
   }
   small {
     display: block;
     margin-top: 1vh;
     font-size: 1.2vh;
+  }
+  .fightCritter {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 5px;
   }
 `
 
@@ -143,7 +159,7 @@ const FightScreen = styled.div`
   width: 100%;
   flex: 1;
   overflow-y: auto;
-  background: rgba(40, 40, 40, 0.75);
+  background: rgba(0, 0, 0, 0.5);
   margin: 2vh 0;
   p {
     font-size: 1.2vh;
