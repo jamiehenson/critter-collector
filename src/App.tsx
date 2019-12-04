@@ -84,7 +84,7 @@ const StyledApp = styled.div`
     display: flex;
     align-items: baseline;
     justify-content: center;
-    padding: 1.5vh 0 1.5vh;
+    padding: 1vh 0 1.5vh;
     border-radius: 5px;
     > span:last-child {
       margin-left: 2vh;
