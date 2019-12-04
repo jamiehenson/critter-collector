@@ -17,7 +17,7 @@ interface BattleUIProps extends UIProps {
 }
 
 const BattleUI: React.FC<BattleUIProps> = ({ ui, player, advanceFromBattle, initiateBattle, fleeBattle }) => {
-  const { fighter, opponent, log, paused } = player.battle
+  const { fighter, opponent, log, paused, initialFighter } = player.battle
 
   return (
     <StyledBattleUI scaling={ui.scalingFactor}>
@@ -25,12 +25,15 @@ const BattleUI: React.FC<BattleUIProps> = ({ ui, player, advanceFromBattle, init
       <FightIntro>
         <div>
           <CritterIcon>
-            <span className="icon">{fighter.icon}</span>
-            <span className="type">{getTypeIcon(fighter.type)}</span>
+            <span className="icon">{initialFighter.icon}</span>
+            <span className="type">{getTypeIcon(initialFighter.type)}</span>
           </CritterIcon>
-          <p>{titleise(fighter.name)}</p>
+          <p>{titleise(initialFighter.name)}</p>
           <small>Lv. {fighter.level}</small>
-          <small>(HP: {fighter.healthPoints * fighter.level}, CP: {fighter.combatPoints * fighter.level})</small>
+          {fighter === initialFighter ?
+            <small>(HP: {fighter.healthPoints * fighter.level}, CP: {fighter.combatPoints * fighter.level})</small>
+            : <small>FAINTED</small>
+          }
         </div>
         <div>
           VS
@@ -42,7 +45,9 @@ const BattleUI: React.FC<BattleUIProps> = ({ ui, player, advanceFromBattle, init
           </CritterIcon>
           <p>{titleise(opponent.name)}</p>
           <small>Lv. {opponent.level}</small>
-          <small>(HP: {opponent.healthPoints * opponent.level}, CP: {opponent.combatPoints * opponent.level})</small>
+          {opponent.healthPoints > 0 ?
+            <small>(HP: {opponent.healthPoints * opponent.level}, CP: {opponent.combatPoints * opponent.level})</small>
+            : <small>FAINTED</small>}
         </div>
       </FightIntro>
       {paused ?
@@ -102,17 +107,17 @@ const StyledBattleUI = styled.div<StyledBattleUIProps>`
     margin: 0;
   }
   h2 {
-    margin: 0 0 2vh 0;
+    margin: 2vh 0;
   }
 `
 
 const Choice = styled.div`
   width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  margin-top: 2vh
   p {
     margin: 0 2vh;
   }

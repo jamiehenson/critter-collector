@@ -55,8 +55,17 @@ const gameReducer = (state, action) => {
       const nearbyCritters = critters.filter((critter) => {
         const xDiff = Math.abs((position as any).x - critter.position.x)
         const yDiff = Math.abs((position as any).y - critter.position.y)
+        const fighter = playerCritters.find((critter) => critter.activeFighter)
         if (xDiff <= 1 && yDiff <= 1) {
-          battle = { ...battle, active: true, opponent: critter, log: [], fighter: playerCritters.find((critter) => critter.activeFighter), paused: true }
+          battle = {
+            ...battle,
+            active: true,
+            opponent: critter,
+            log: [],
+            fighter: fighter,
+            initialFighter: fighter,
+            paused: true
+          }
           return true
         } else if (xDiff <= 2 && yDiff <= 2) {
           battle.active = false
