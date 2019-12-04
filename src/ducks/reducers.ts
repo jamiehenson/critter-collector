@@ -80,22 +80,24 @@ const gameReducer = (state, action) => {
       return Object.assign({}, state, newState);
     }
     case ACTIONS.Actions.ADD_CRITTER_TO_WORLD: {
-      const xPos = Math.floor(Math.random() * state.world.worldSize)
-      const yPos = Math.floor(Math.random() * state.world.worldSize)
-      const newCritters = state.world.critters
+      const { worldSize, critters, critterCounter } = state.world
+      const xPos = Math.floor(Math.random() * worldSize)
+      const yPos = Math.floor(Math.random() * worldSize)
+      const newCritters = critters
       const newHealthPoints = Math.floor(Math.random() * 100 + 50)
+      const difficultyRamp = Math.max(Math.floor(state.world.critterCounter / 5) - 2, 0)
       const newCritterState = {
-        id: state.world.critterCounter,
+        id: critterCounter,
         position: { x: xPos, y: yPos },
         healthPoints: newHealthPoints,
         fullHealthPoints: newHealthPoints,
         combatPoints: Math.floor(Math.random() * 20 + 20),
-        level: Math.ceil(Math.random() * 3)
+        level: Math.ceil(Math.random() * 3) + difficultyRamp
       }
       const randomCritter = Object.assign({}, allCritters[Math.floor(Math.random() * allCritters.length)], newCritterState)
       newCritters.push(randomCritter)
       return Object.assign({}, state, {
-        world: { ...state.world, critterCounter: state.world.critterCounter + 1, critters: newCritters }
+        world: { ...state.world, critterCounter: critterCounter + 1, critters: newCritters }
       })
     }
     case ACTIONS.Actions.ADD_CRITTER_TO_PLAYER: {
