@@ -82,7 +82,7 @@ const StyledApp = styled.div`
     background: ${theme.colours.grey};
     width: calc(${initialState.ui.scalingFactor * 100}vh + 20px);
     display: flex;
-    align-items: flex-end;
+    align-items: baseline;
     justify-content: center;
     padding: 1.5vh 0 1.5vh;
     border-radius: 5px;
@@ -91,9 +91,9 @@ const StyledApp = styled.div`
     }
   }
   .critter {
-    font-family: "Gill Sans", "Press Start 2P", sans-serif;
+    font-family: "Lato", "Press Start 2P", sans-serif;
     font-style: italic;
-    font-size: 4vh;
+    font-size: 3.5vh;
   }
   .collector {
     font-family: "Comic Sans MS", "Press Start 2P", sans-serif;

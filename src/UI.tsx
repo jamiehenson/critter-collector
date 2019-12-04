@@ -228,7 +228,7 @@ const CritterList = styled.div`
   margin-top: 1vh;
   max-height: 13vh;
   height: 100%;
-  overflow-y: scroll;
+  overflow-y: auto;
   > div { 
     display: inline-flex;
     align-items: center;
@@ -239,6 +239,10 @@ const CritterList = styled.div`
     position: relative;
     width: 4vh;
     height: 4vh;
+  }
+  .icon-image {
+    position: absolute;
+    font-size: 3vh;
   }
   .active {
     position: absolute;
