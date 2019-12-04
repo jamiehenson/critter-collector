@@ -39,7 +39,7 @@ const computeBattle = (player, methods) => {
       const aliveCritters = [...player.critters.filter((critter) => critter.healthPoints > 0)]
       if (aliveCritters.length > 0) {
         const randomAliveCritter = aliveCritters[Math.floor(Math.random() * aliveCritters.length)]
-        newBattle.log.push(`Go ${randomAliveCritter.name}!`)
+        newBattle.log.push(`${titleise(randomAliveCritter.name)} fights next time!`)
         updateActiveCritterFighter(randomAliveCritter)
         newBattle.fighter = randomAliveCritter
       } else {
