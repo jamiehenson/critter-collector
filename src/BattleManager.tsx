@@ -6,6 +6,9 @@ import { typeModifiers } from "./utils/critters"
 import { BattleType } from "./utils/types"
 import { increaseCritterLevel, addCritterToPlayer, removeCritterFromWorld, updateActiveCritterFighter, updateBattleStatus } from "./ducks/actions"
 
+// This component handles the computation of the battles, with a given player fighter and wild opponent. The log is incrementally updated
+// and stored in Redux, along with any changes to critter stats (health, levelling etc). This component does not render anything.
+
 const BattleManager: React.FC<BattleType> = ({ player, updateActiveCritterFighter, addCritterToPlayer, removeCritterFromWorld, increaseCritterLevel, updateBattleStatus }) => {
   const methods = { updateActiveCritterFighter, addCritterToPlayer, removeCritterFromWorld, increaseCritterLevel, updateBattleStatus }
 

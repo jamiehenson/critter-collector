@@ -12,6 +12,9 @@ type CellWrapperProps = {
   cells: Component[]
 }
 
+// This component wraps all the instantiated cells, allowing the UI to move all the cells at once within the bound
+// viewport as the player moves, which is cleaner than moving each cell individually
+
 const CellWrapper: React.FC<CellWrapperProps> = ({ updatePlayerPosition, player, world, cells }) => {
   const { cellSize, edgeCellPosition } = world
   const positionStyling = {

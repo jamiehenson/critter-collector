@@ -17,6 +17,10 @@ interface MenuUIProps extends UIProps {
   startGame: Function
 }
 
+// These components containsthe general UI that makes up the game's top layer. BattleUI has been broken out
+// since it is larger than the others. What remains is the initial Menu UI, the End UI, and the midgame's 
+// Footer UI, which displays a player's critter collection and nearby critters.
+
 const UI: React.FC<UIProps> = ({ player, ui }) => {
   return (
     <>

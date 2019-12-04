@@ -16,6 +16,9 @@ interface BattleUIProps extends UIProps {
   fleeBattle: Function
 }
 
+// This component facilitates the initialisation or fleeing from battles, and displays the battle status computed by
+// the BattleManager component via the player's battle object on Redux
+
 const BattleUI: React.FC<BattleUIProps> = ({ ui, player, advanceFromBattle, initiateBattle, fleeBattle }) => {
   const { fighter, opponent, log, paused, initialFighter } = player.battle
 

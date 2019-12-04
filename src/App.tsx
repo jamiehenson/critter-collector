@@ -11,25 +11,25 @@ const cellRowSize: number = 9
 const worldSize: number = 27
 const initialState = {
   world: {
-    worldSize: worldSize,
-    cellRowSize: cellRowSize,
-    cellSize: 100.0 / cellRowSize,
-    edgeCellPosition: Math.floor(cellRowSize / 2),
-    critterMaxPopulation: 10,
-    sandEdgeCells: 2,
-    critters: [],
-    critterCounter: 1
+    worldSize: worldSize, // How many cells the world is in both X and Y axes
+    cellRowSize: cellRowSize, // How many cells per visible row
+    cellSize: 100.0 / cellRowSize, // Portion of the viewport dedicated to each cell
+    edgeCellPosition: Math.floor(cellRowSize / 2), // Used in calculating the edge bound of the world to restrict player movement
+    critterMaxPopulation: 10, // The max amount of critters in the world at one time
+    sandEdgeCells: 2, // How many cells on the periphery of the world are marked as edges (for sand textures)
+    critters: [], // An empty set of critters in the world
+    critterCounter: 0 // How many critters have ever been spawned
   },
   player: {
-    position: { x: Math.floor(Math.random() * worldSize), y: Math.floor(Math.random() * worldSize) },
-    direction: "down",
-    critters: [],
-    nearbyCritters: [],
-    battle: { active: false }
+    position: { x: Math.floor(Math.random() * worldSize), y: Math.floor(Math.random() * worldSize) }, // Random coordinate for player spawn
+    direction: "down", // Face the "camera" on start
+    critters: [], // A starting player has no critters
+    nearbyCritters: [], // A starting player is not by any critters, at least until computed
+    battle: { active: false } // A starting player is not in a battle
   },
   ui: {
-    scalingFactor: 0.8,
-    gameState: "menu"
+    scalingFactor: 0.8, // A scaling factor used to govern UI proportionality
+    gameState: "menu" // The initial game state, renders the menu UI component
   }
 };
 

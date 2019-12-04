@@ -12,6 +12,9 @@ type StyledCellProps = {
   flipCell: boolean
 }
 
+// This component represents each navigable block in the game world. It can either have a player, a critter, or
+// a clinic on it, and can either have a grass or a sand texture, depending on if it is an edge cell.
+
 const Cell: React.FC<CellType> = ({ x, y, player, world, ui }) => {
   const { cellSize, worldSize, sandEdgeCells, critters, clinic } = world
   const { direction, nearbyCritters } = player

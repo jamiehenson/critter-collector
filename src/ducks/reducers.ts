@@ -3,6 +3,7 @@ import allCritters from "../utils/critters";
 
 const gameReducer = (state, action) => {
   switch (action.type) {
+    // Handler to update player position, detect adjacent obstructions and detect nearby critters/clinic
     case ACTIONS.Actions.UPDATE_PLAYER_POSITION: {
       const key = action.payload;
       let { position, direction, battle, critters: playerCritters } = state.player
@@ -20,6 +21,8 @@ const gameReducer = (state, action) => {
         return critterPresence || clinicPresence
       }
 
+      // This object contains the results of the above method with different axes and polarities, checking for critters and clinics in those cells
+      // by cross-referencing coordinate values
       const obstructions = {
         up: checkObstruction("y", -1),
         down: checkObstruction("y", 1),
@@ -87,6 +90,8 @@ const gameReducer = (state, action) => {
 
       return Object.assign({}, state, newState);
     }
+
+    // Adds a random critter to the world in a random location with random bounded stats
     case ACTIONS.Actions.ADD_CRITTER_TO_WORLD: {
       const { worldSize, critters, critterCounter } = state.world
       const xPos = Math.floor(Math.random() * worldSize)
@@ -108,6 +113,9 @@ const gameReducer = (state, action) => {
         world: { ...state.world, critterCounter: critterCounter + 1, critters: newCritters }
       })
     }
+
+    // If there's a critter argument, add that particular critter to the player's collection, otherwise, add a random new
+    // critter to the player's collection with random bounded stats (used at the game start)
     case ACTIONS.Actions.ADD_CRITTER_TO_PLAYER: {
       const newCritters = state.player.critters
 
@@ -132,6 +140,8 @@ const gameReducer = (state, action) => {
 
       return Object.assign({}, state, { player: { ...state.player, critters: newCritters }, world: { ...state.world, critterCounter: state.world.critterCounter + 1 } })
     }
+
+    // Move on from the battle, wiping the active battle state, and ending the game if all player critters are down
     case ACTIONS.Actions.ADVANCE_FROM_BATTLE: {
       if (state.player.critters.find((critter) => critter.healthPoints > 0)) {
         return Object.assign({}, state, { player: { ...state.player, battle: { active: false } } })
@@ -139,6 +149,8 @@ const gameReducer = (state, action) => {
         return Object.assign({}, state, { player: { ...state.player, battle: { active: false } }, ui: { ...state.ui, gameState: "end" } })
       }
     }
+
+    // Removes a critter from the world pool and the player's nearby pool when caught by a player
     case ACTIONS.Actions.REMOVE_CRITTER_FROM_WORLD: {
       const newNearbyCritters = [...state.player.nearbyCritters]
       const newWorldCritters = [...state.world.critters]
@@ -155,13 +167,19 @@ const gameReducer = (state, action) => {
         return state
       }
     }
+
+    // Change a player's active fighter critter. This critter fights first in a battle
     case ACTIONS.Actions.UPDATE_ACTIVE_CRITTER_FIGHTER: {
       const newCritters = [...state.player.critters].map((critter) => ({ ...critter, activeFighter: critter.id === action.payload.id }))
       return Object.assign({}, state, { player: { ...state.player, critters: newCritters } })
     }
+
+    // Start the game by changing the UI state
     case ACTIONS.Actions.START_GAME: {
       return Object.assign({}, state, { ui: { ...state.ui, gameState: "play" } })
     }
+
+    // Increment a critter's level by 1
     case ACTIONS.Actions.INCREASE_CRITTER_LEVEL: {
       const newCritters = [...state.player.critters].map((critter) => {
         if (critter.id === action.payload.id) { critter.level += 1 }
@@ -169,6 +187,8 @@ const gameReducer = (state, action) => {
       })
       return Object.assign({}, state, { player: { ...state.player, critters: newCritters } })
     }
+
+    // Add the clinic to a random vacant cell in the world
     case ACTIONS.Actions.ADD_CLINIC_TO_WORLD: {
       let unobstructed = true
       while (unobstructed) {
@@ -184,10 +204,15 @@ const gameReducer = (state, action) => {
       }
       return state
     }
+
+    // Update a player's active battle status as it progresses
     case ACTIONS.Actions.UPDATE_BATTLE_STATUS: {
       const newBattle = action.payload
       return Object.assign({}, state, { player: { ...state.player, battle: newBattle } })
     }
+
+    // When encountering a critter, a player can either initiate the battle, unpausing the active state, or flee, which cancels
+    // the battle state
     case ACTIONS.Actions.INITIATE_BATTLE: {
       return Object.assign({}, state, { player: { ...state.player, battle: { ...state.player.battle, paused: false } } })
     }

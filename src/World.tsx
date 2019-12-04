@@ -26,6 +26,11 @@ type StyledWorldProps = {
   cellSize: number
 }
 
+// This component is the top level World component which is responsible for populating the game world with the relevant
+// characters and objects. First it adds a clinic, then the max population of critters (10 by default), then gives the
+// player 2 critters. Finally, it renders the world cells themselves. On top of the world generation, this component also
+// triggers the rendering of the UI, and triggers the BattleManager if an active, unpaused battle is in progress.
+
 const World: React.FC<WorldProps> = ({ world, player, scalingFactor, addCritterToWorld, addCritterToPlayer, addClinicToWorld, updatePlayerPosition }) => {
   const cells: any[] = []
   const { worldSize, critterMaxPopulation, cellSize, critters } = world
