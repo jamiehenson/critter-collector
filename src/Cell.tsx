@@ -66,6 +66,7 @@ const StyledCell = styled.div<StyledCellProps>`
   background-size: cover;
   font-size: ${({ cellSize, scalingFactor }) => cellSize * scalingFactor}vh;
   transform: scale(${({ flipCell }) => flipCell ? -1 : 1}, 1);
+  pointer-events: none;
 `
 
 export default connect(
