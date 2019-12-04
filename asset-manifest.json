@@ -1,24 +1,23 @@
 {
   "files": {
     "main.css": "/critter-collector/static/css/main.25723443.chunk.css",
-    "main.js": "/critter-collector/static/js/main.f92d280f.chunk.js",
-    "main.js.map": "/critter-collector/static/js/main.f92d280f.chunk.js.map",
+    "main.js": "/critter-collector/static/js/main.f9504cd4.chunk.js",
+    "main.js.map": "/critter-collector/static/js/main.f9504cd4.chunk.js.map",
     "runtime-main.js": "/critter-collector/static/js/runtime-main.df8aba61.js",
     "runtime-main.js.map": "/critter-collector/static/js/runtime-main.df8aba61.js.map",
     "static/js/2.82381bae.chunk.js": "/critter-collector/static/js/2.82381bae.chunk.js",
     "static/js/2.82381bae.chunk.js.map": "/critter-collector/static/js/2.82381bae.chunk.js.map",
     "index.html": "/critter-collector/index.html",
-    "precache-manifest.73911c45d1205d5bfd92b5702e55d0f9.js": "/critter-collector/precache-manifest.73911c45d1205d5bfd92b5702e55d0f9.js",
+    "precache-manifest.1ffd7ef6557de5a6ae61a5b8d1179ca1.js": "/critter-collector/precache-manifest.1ffd7ef6557de5a6ae61a5b8d1179ca1.js",
     "service-worker.js": "/critter-collector/service-worker.js",
     "static/css/main.25723443.chunk.css.map": "/critter-collector/static/css/main.25723443.chunk.css.map",
-    "static/media/grass.png": "/critter-collector/static/media/grass.8eb8a5fb.png",
-    "static/media/sand.png": "/critter-collector/static/media/sand.320ecf95.png",
-    "static/media/water.png": "/critter-collector/static/media/water.879caf56.png"
+    "static/media/grass.png": "/critter-collector/static/media/grass.fe031149.png",
+    "static/media/sand.png": "/critter-collector/static/media/sand.2b23a5e2.png"
   },
   "entrypoints": [
     "static/js/runtime-main.df8aba61.js",
     "static/js/2.82381bae.chunk.js",
     "static/css/main.25723443.chunk.css",
-    "static/js/main.f92d280f.chunk.js"
+    "static/js/main.f9504cd4.chunk.js"
   ]
 }
